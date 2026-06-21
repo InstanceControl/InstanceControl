@@ -1,0 +1,2890 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="icon" type="image/png" href="./statics/images/icon.png">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>InstanceControl - Project Page</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --cyan: #46cbc7;
+            --orange: #de5a1d;
+            --purple: #a855f7;
+            --bg-overlay: rgba(15, 23, 42, 0.9);
+            /* 统一内容区宽度：小屏留 4vw 边距，最大不超过 1400px */
+            --content-width: clamp(320px, 92vw, 1400px);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background-color: #000;
+            color: #fff;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* ── Background ── */
+        .hero-background {
+            position: fixed;
+            top: 0; left: 0; width: 100vw; height: 100vh;
+            z-index: -10;
+            background: radial-gradient(ellipse at 20% 50%, rgba(70, 203, 199, 0.08) 0%, transparent 60%),
+                        radial-gradient(ellipse at 80% 20%, rgba(222, 90, 29, 0.08) 0%, transparent 60%),
+                        radial-gradient(ellipse at 50% 80%, rgba(168, 85, 247, 0.06) 0%, transparent 60%),
+                        #050a14;
+        }
+
+        .hero-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100vw; height: 100vh;
+            z-index: -9;
+            background: linear-gradient(to bottom, rgba(0,0,0,0.3) 0%, rgba(0,0,0,0.7) 60%, #000 100%);
+        }
+
+        /* ── Hero Section ── */
+        .hero-section {
+            position: relative;
+            width: 100%;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding-top: 4rem;
+            text-align: center;
+        }
+
+        .conference-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: linear-gradient(135deg, rgba(70, 203, 199, 0.15), rgba(222, 90, 29, 0.15));
+            border: 1px solid rgba(70, 203, 199, 0.4);
+            border-radius: 50px;
+            padding: 6px 20px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--cyan);
+            letter-spacing: 1px;
+            margin-bottom: 1.5rem;
+            text-transform: uppercase;
+        }
+
+        .main-title {
+            font-size: 3.2rem;
+            font-weight: 700;
+            line-height: 1.25;
+            margin-bottom: 0.5rem;
+            max-width: 900px;
+            padding: 0 1rem;
+        }
+
+        .title-highlight {
+            background: linear-gradient(90deg, var(--cyan), #fff 50%, var(--orange));
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .title-subtitle {
+            font-size: 1.55rem;
+            color: #64748b;
+            font-weight: 400;
+            margin-bottom: 2rem;
+            max-width: 760px;
+            padding: 0 1rem;
+            letter-spacing: 0.3px;
+            line-height: 1.7;
+        }
+
+        .title-subtitle .subtitle-highlight {
+            color: #cbd5e1;
+            font-weight: 500;
+            font-size: 1.7rem;
+        }
+
+        /* ── Authors ── */
+        .authors-wrapper {
+            margin-top: 0.5rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 14px;
+            margin-bottom: 2rem;
+        }
+
+        .author-names {
+            font-size: 1.15rem;
+            line-height: 1.8;
+            color: #e2e8f0;
+        }
+
+        .author-names a {
+            color: #fff;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+            border-bottom: 1px dotted rgba(255,255,255,0.3);
+        }
+
+        .author-names a:hover {
+            color: var(--cyan);
+            border-bottom-color: var(--cyan);
+        }
+
+        .author-names sup {
+            color: var(--orange);
+            font-size: 0.75em;
+            font-weight: bold;
+            margin-left: 1px;
+        }
+
+        .institutions {
+            font-size: 1rem;
+            color: #cbd5e1;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: center;
+            gap: 18px;
+        }
+
+        .inst-block {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .inst-logo {
+            height: 28px;
+            width: 28px;
+            object-fit: contain;
+            vertical-align: middle;
+            background-color: #ffffff;
+            padding: 2px;
+            border-radius: 4px;
+        }
+
+        .separator {
+            color: #334155;
+            font-weight: 300;
+        }
+
+        .contribution-note {
+            font-size: 0.82rem;
+            color: #64748b;
+            font-style: italic;
+            margin-top: 4px;
+        }
+
+        .contribution-note .bullet {
+            margin: 0 8px;
+            color: #475569;
+        }
+
+        /* ── Nav Buttons ── */
+        .nav-buttons {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 3rem;
+            flex-wrap: wrap;
+            justify-content: center;
+            z-index: 10;
+        }
+
+        .pill-btn {
+            background-color: rgba(255, 255, 255, 0.9);
+            color: #000;
+            padding: 10px 22px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+        }
+
+        .pill-btn:hover {
+            background-color: #fff;
+            transform: translateY(-2px);
+            box-shadow: 0 0 15px var(--cyan);
+        }
+            box-shadow: 0 0 15px var(--cyan);
+        }
+
+        /* ── Teaser Comparison Grid ── */
+        .teaser-comparison {
+            width: 90%;
+            max-width: 1200px;
+            position: relative;
+            z-index: 10;
+            margin-bottom: 4rem;
+        }
+
+        .teaser-comparison-title {
+            text-align: center;
+            font-size: 1.15rem;
+            color: #94a3b8;
+            margin-bottom: 1.2rem;
+            font-weight: 500;
+            letter-spacing: 0.5px;
+        }
+
+        .teaser-grid-header {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 14px;
+            margin-bottom: 10px;
+        }
+
+        .teaser-grid-header .teaser-header-cell {
+            text-align: center;
+            font-size: 1.1rem;
+            font-weight: 700;
+            padding: 8px 0;
+            letter-spacing: 0.5px;
+        }
+
+        .teaser-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 14px;
+            row-gap: 14px;
+        }
+
+        .teaser-img-cell {
+            background: rgba(8, 8, 12, 0.7);
+            border: 1px solid #222;
+            border-radius: 14px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .teaser-img-cell:hover {
+            border-color: rgba(255,255,255,0.2);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(0,0,0,0.5);
+        }
+
+        .teaser-img-cell img {
+            width: 100%;
+            height: auto;
+            display: block;
+            border-radius: 13px;
+        }
+
+        .teaser-img-cell .teaser-badge {
+            position: absolute;
+            top: 10px;
+            right: 12px;
+            font-size: 1.8rem;
+            line-height: 1;
+            filter: drop-shadow(0 3px 10px rgba(0,0,0,0.9));
+            pointer-events: none;
+            z-index: 5;
+        }
+
+        .teaser-row-divider {
+            grid-column: 1 / -1;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.06), transparent);
+            margin: 2px 0;
+        }
+
+        /* ── Content Sections ── */
+        .content-section {
+        /* ── Abstract ── */
+        .abstract-box {
+            background: rgba(15, 15, 20, 0.85);
+            border-radius: 16px;
+            padding: 2.5rem;
+            border-left: 4px solid var(--cyan);
+            margin-bottom: 4rem;
+            backdrop-filter: blur(12px);
+            box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+        }
+
+        h2 {
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+            color: #fff;
+        }
+
+        p {
+            line-height: 1.85;
+            color: #d1d5db;
+            font-size: 1.05rem;
+            margin-bottom: 1rem;
+            text-align: left;
+        }
+
+        /* ── Key Insight Cards ── */
+        .insight-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            margin-bottom: 4rem;
+        }
+
+        .insight-card {
+            background: rgba(15, 15, 20, 0.8);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 14px;
+            padding: 1.8rem 1.5rem;
+            text-align: center;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(8px);
+        }
+
+        .insight-card:hover {
+            border-color: var(--cyan);
+            transform: translateY(-4px);
+            box-shadow: 0 12px 40px rgba(70, 203, 199, 0.15);
+        }
+
+        .insight-icon {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .insight-card h3 {
+            font-size: 1rem;
+            font-weight: 700;
+            color: #fff;
+            margin-bottom: 0.6rem;
+        }
+
+        .insight-card p {
+            font-size: 0.88rem;
+            color: #94a3b8;
+            text-align: center;
+            margin-bottom: 0;
+            line-height: 1.6;
+        }
+
+        /* ── Pipeline ── */
+        .pipeline-container {
+            width: 100%;
+            margin: 1rem 0;
+            border: 1px solid #222;
+            border-radius: 12px;
+            padding: 12px;
+            background: rgba(0,0,0,0.5);
+            backdrop-filter: blur(6px);
+        }
+
+        .pipeline-container img {
+            width: 100%;
+            height: auto;
+            border-radius: 6px;
+        }
+
+        .fig-caption {
+            text-align: center;
+            color: #64748b;
+            font-size: 0.88rem;
+            margin-top: 10px;
+            line-height: 1.5;
+        }
+
+        /* ── Contributions ── */
+        .contributions-box {
+            background: rgba(15, 15, 20, 0.85);
+            border-radius: 16px;
+            padding: 2.5rem;
+            border-left: 4px solid var(--orange);
+            margin-bottom: 4rem;
+            backdrop-filter: blur(12px);
+        }
+
+        .contribution-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            margin-top: 1rem;
+        }
+
+        .contribution-list li {
+            display: flex;
+            gap: 14px;
+            align-items: flex-start;
+        }
+
+        .contrib-bullet {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--cyan), var(--orange));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.75rem;
+            font-weight: 800;
+            color: #000;
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+
+        .contribution-list li p {
+            margin-bottom: 0;
+            font-size: 1rem;
+            color: #cbd5e1;
+            text-align: left;
+        }
+
+        /* ── Tables ── */
+        .results-breakout-container {
+            width: var(--content-width);
+            max-width: 100%;
+            position: relative;
+            left: 50%;
+            transform: translateX(-50%);
+            margin-bottom: 4rem;
+            background: rgba(8, 8, 12, 0.92);
+            border: 1px solid #222;
+            border-radius: 16px;
+            padding: 1.8rem;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.6);
+            overflow-x: auto;
+            backdrop-filter: blur(8px);
+        }
+
+        .custom-table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+            font-size: 0.85rem;
+            color: #cbd5e1;
+        }
+
+        .custom-table th,
+        .custom-table td {
+            padding: 10px 10px;
+            text-align: center;
+        }
+
+        .custom-table td {
+            border-bottom: 1px solid #1a1a1a;
+        }
+
+        .custom-table tbody tr:last-child td {
+            border-bottom: none;
+        }
+
+        .custom-table th {
+            background-color: rgba(15, 15, 20, 0.98);
+            color: #fff;
+            font-weight: 600;
+            vertical-align: middle;
+        }
+
+        .group-header {
+            border-bottom: 1px solid #2a2a2a;
+            font-size: 0.72rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--cyan);
+            padding-bottom: 5px !important;
+        }
+
+        .custom-table thead tr:last-child th {
+            border-bottom: 2px solid var(--orange);
+        }
+
+        .custom-table thead th[rowspan] {
+            border-bottom: 2px solid var(--orange);
+        }
+
+        .custom-table td:first-child,
+        .custom-table th:first-child,
+        .custom-table td:nth-child(2),
+        .custom-table th:nth-child(2) {
+            text-align: left;
+            padding-left: 16px;
+            min-width: 120px;
+        }
+
+        .highlight-col {
+            background-color: rgba(70, 203, 199, 0.04);
+            border-left: 1px solid rgba(70, 203, 199, 0.15);
+            border-right: 1px solid rgba(70, 203, 199, 0.15);
+            font-weight: bold;
+            color: #fff;
+        }
+
+        .highlight-row {
+            background-color: rgba(222, 90, 29, 0.05) !important;
+        }
+
+        .highlight-row td:first-child {
+            color: var(--orange);
+            font-weight: bold;
+        }
+
+        .highlight-row td:first-child::before {
+            content: '★ ';
+            font-size: 0.8rem;
+        }
+
+        .best-score {
+            font-weight: 800;
+            color: #fff;
+            text-shadow: 0 0 8px rgba(70, 203, 199, 0.5);
+        }
+
+        .table-title {
+            color: #fff;
+            margin-bottom: 12px;
+            font-size: 1.05rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .table-caption {
+            font-size: 0.8rem;
+            color: #475569;
+            margin-top: 14px;
+            text-align: left;
+            line-height: 1.5;
+        }
+
+        /* ── Carousel ── */
+        .carousel-section {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 4rem;
+        }
+
+        .carousel-wrapper {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 20px;
+            width: var(--content-width);
+            max-width: 100%;
+        }
+
+        .carousel-main-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            max-width: 1100px;
+        }
+
+        .carousel-container {
+            width: 100%;
+            position: relative;
+            background: rgba(8, 8, 12, 0.7);
+            border: 1px solid #222;
+            border-radius: 14px;
+            padding: 4px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.6);
+            backdrop-filter: blur(6px);
+            overflow: hidden;
+            line-height: 0;
+        }
+
+        .carousel-slide {
+            display: none;
+            width: 100%;
+            animation: fadeEffect 0.5s ease;
+        }
+
+        .carousel-slide.active {
+            display: block;
+        }
+
+        .carousel-slide img {
+            width: 100%;
+            height: auto;
+            border-radius: 8px;
+            display: block;
+        }
+
+        @keyframes fadeEffect {
+            from { opacity: 0.4; }
+            to   { opacity: 1; }
+        }
+
+        .carousel-btn {
+            background-color: rgba(255, 255, 255, 0.08);
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .carousel-btn:hover {
+            background-color: var(--orange);
+            border-color: var(--orange);
+            box-shadow: 0 0 18px var(--orange);
+            transform: scale(1.1);
+        }
+
+        .carousel-indicators {
+            display: flex;
+            justify-content: center;
+            margin-top: 18px;
+            gap: 8px;
+        }
+
+        .dot {
+            height: 4px;
+            width: 28px;
+            background-color: #222;
+            border-radius: 2px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .dot.active,
+        .dot:hover {
+            background-color: var(--cyan);
+            box-shadow: 0 0 8px var(--cyan);
+        }
+
+        /* ── Carousel Column Headers (legacy, kept for other carousels) ── */
+        .header-row {
+            display: flex;
+            padding-bottom: 10px;
+            align-items: flex-end;
+            text-align: center;
+            font-size: 1rem;
+            font-weight: 600;
+        }
+
+        .header-col-condition {
+            width: 25%;
+            text-align: center;
+            color: #94a3b8;
+        }
+
+        .header-col-baseline {
+            width: 25%;
+            text-align: center;
+            color: #cbd5e1;
+        }
+
+        .header-col-ours {
+            width: 25%;
+            text-align: center;
+            color: var(--cyan);
+            font-weight: 800;
+        }
+
+        /* ── Qualitative Comparison: Instance View ── */
+        .qual-col-header {
+            font-size: 1rem;
+            font-weight: 700;
+            text-align: center;
+            padding: 10px 0 14px;
+            letter-spacing: 0.5px;
+        }
+
+        .section-label-pill {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 46px;
+            padding: 10px 14px;
+            border-radius: 12px;
+            background: rgba(255,255,255,0.045);
+            border: 1px solid rgba(255,255,255,0.1);
+            box-shadow: inset 0 1px 0 rgba(255,255,255,0.04);
+            font-size: 1.05rem;
+            font-weight: 800;
+            letter-spacing: 0.3px;
+            text-align: center;
+        }
+
+        .section-label-pill.muted { color: #94a3b8; }
+        .section-label-pill.light { color: #e2e8f0; }
+        .section-label-pill.bad { color: #f87171; background: rgba(248,113,113,0.065); border-color: rgba(248,113,113,0.16); }
+        .section-label-pill.good { color: var(--cyan); background: rgba(70,203,199,0.065); border-color: rgba(70,203,199,0.16); }
+
+        .qual-img-col {
+            background: rgba(8,8,12,0.7);
+            border: 1px solid #222;
+            border-radius: 14px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .qual-img-col canvas {
+            display: block;
+            width: 100%;
+            height: auto;
+            cursor: crosshair;
+        }
+
+        .col-badge {
+            position: absolute;
+            top: 12px;
+            right: 14px;
+            font-size: 3.2rem;
+            line-height: 1;
+            filter: drop-shadow(0 3px 10px rgba(0,0,0,0.9));
+            pointer-events: none;
+            z-index: 20;
+        }
+
+        /* Hero interactive showcase */
+        #hero-showcase {
+            width: min(96vw, 1480px) !important;
+            margin: 2.6rem auto 0 !important;
+            left: auto !important;
+            transform: none !important;
+        }
+
+        #hero-showcase .hero-shell {
+            display: grid !important;
+            grid-template-columns: 58px minmax(0, 1fr) 58px !important;
+            align-items: center !important;
+            gap: 22px !important;
+        }
+
+        #hero-prev-btn,
+        #hero-next-btn {
+            width: 54px !important;
+            height: 54px !important;
+            font-size: 1.25rem !important;
+            justify-self: center;
+            box-shadow: 0 12px 34px rgba(0,0,0,0.36);
+        }
+
+        #hero-showcase #hero-indicators {
+            margin-bottom: 18px !important;
+        }
+
+        #hero-showcase #hero-indicators > div {
+            height: 6px !important;
+            border-radius: 999px !important;
+        }
+
+        #hero-showcase [id^="hero-imgcol-"] {
+            border-radius: 16px !important;
+            box-shadow: 0 14px 42px rgba(0,0,0,0.42) !important;
+        }
+
+        #hero-showcase [id^="hero-imgcol-"] img,
+        #hero-showcase [id^="hero-imgcol-"] canvas {
+            border-radius: 16px !important;
+        }
+
+        #hero-showcase #hero-text-col {
+            max-width: 1180px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        @media (max-width: 768px) {
+            #hero-showcase {
+                width: min(94vw, 520px) !important;
+                position: relative;
+            }
+            #hero-showcase .hero-shell {
+                display: block !important;
+            }
+            #hero-prev-btn,
+            #hero-next-btn {
+                width: 44px !important;
+                height: 44px !important;
+                font-size: 1.05rem !important;
+                position: absolute;
+                top: 36%;
+                z-index: 30;
+                background: rgba(15,23,42,0.76) !important;
+            }
+            #hero-prev-btn {
+                left: -6px;
+            }
+            #hero-next-btn {
+                right: -6px;
+            }
+        }
+
+        /* Instance pills */
+        .inst-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 5px 14px;
+            border-radius: 50px;
+            border: 1px solid rgba(255,255,255,0.15);
+            background: rgba(255,255,255,0.05);
+            color: #94a3b8;
+            font-size: 0.82rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.25s ease;
+            user-select: none;
+        }
+
+        .inst-pill:hover,
+        .inst-pill.active {
+            background: rgba(70,203,199,0.15);
+            border-color: var(--cyan);
+            color: var(--cyan);
+            box-shadow: 0 0 10px rgba(70,203,199,0.25);
+        }
+
+        /* Text column instance spans */
+        .inst-span {
+            display: inline;
+            border-radius: 4px;
+            padding: 1px 3px;
+            cursor: pointer;
+            transition: background 0.2s ease, color 0.2s ease;
+        }
+
+        .inst-span:hover,
+        .inst-span.active {
+            background: rgba(255, 255, 255, 0.22) !important;
+            color: inherit !important;
+            outline: 2px solid rgba(255, 255, 255, 0.28);
+            box-shadow: 0 0 0 1px rgba(70,203,199,0.35), 0 0 14px rgba(70,203,199,0.18);
+        }
+
+        /* Text column scrollbar */
+        #text-col::-webkit-scrollbar { width: 4px; }
+        #text-col::-webkit-scrollbar-track { background: transparent; }
+        #text-col::-webkit-scrollbar-thumb { background: #333; border-radius: 2px; }
+
+
+        /* ── Section Divider ── */
+        .section-divider {
+            width: 60px;
+            height: 3px;
+            background: linear-gradient(90deg, var(--cyan), var(--orange));
+            border-radius: 2px;
+            margin: 0 auto 1.5rem;
+        }
+
+        /* ── Footer ── */
+        .site-footer {
+            width: 100%;
+            padding: 2.5rem 0;
+            margin-top: 2rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            z-index: 10;
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(12px);
+            border-top: 1px solid rgba(255, 255, 255, 0.06);
+        }
+
+        .site-footer .container {
+            text-align: center;
+        }
+
+        .site-footer .credits {
+            font-size: 0.88rem;
+            color: #475569;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            flex-wrap: wrap;
+        }
+
+        /* ── Responsive ── */
+        @media (max-width: 768px) {
+            .main-title { font-size: 2rem; }
+            .insight-grid { grid-template-columns: 1fr; }
+            .author-names { font-size: 1rem; padding: 0 10px; }
+            .institutions { font-size: 0.88rem; flex-direction: column; gap: 6px; }
+            .separator { display: none; }
+            .pill-btn { padding: 8px 16px; font-size: 0.82rem; }
+            .teaser-comparison { width: 98%; }
+            .teaser-grid, .teaser-grid-header { gap: 8px; }
+            .teaser-header-cell { font-size: 0.85rem; }
+            .results-breakout-container { width: 100%; left: 0; transform: none; padding: 1rem 0.5rem; }
+            .custom-table { white-space: nowrap; }
+            .carousel-wrapper { gap: 6px; width: 100%; }
+            .carousel-btn { width: 36px; height: 36px; font-size: 0.9rem; }
+            .header-row { display: none; }
+        }
+    </style>
+    <style id="final-layout-overrides">
+        #hero-showcase {
+            width: min(96vw, 1480px) !important;
+            max-width: none !important;
+            margin: 1.1rem auto 0 !important;
+            left: auto !important;
+            transform: none !important;
+            position: relative !important;
+        }
+
+        .hero-section .nav-buttons {
+            margin-bottom: 1.2rem !important;
+        }
+
+        #hero-showcase .hero-shell {
+            display: grid !important;
+            grid-template-columns: 58px minmax(0, 1fr) 58px !important;
+            align-items: center !important;
+            gap: 22px !important;
+        }
+
+        #hero-showcase > .hero-shell > div:nth-child(2) {
+            min-width: 0 !important;
+        }
+
+        #hero-prev-btn,
+        #hero-next-btn {
+            width: 54px !important;
+            height: 54px !important;
+            font-size: 1.25rem !important;
+            justify-self: center !important;
+            box-shadow: 0 12px 34px rgba(0,0,0,0.36) !important;
+        }
+
+        #hero-showcase #hero-indicators {
+            margin-bottom: 18px !important;
+        }
+
+        #hero-showcase #hero-indicators > div {
+            height: 6px !important;
+            border-radius: 999px !important;
+        }
+
+        #hero-showcase [id^="hero-imgcol-"] {
+            border-radius: 16px !important;
+            box-shadow: 0 14px 42px rgba(0,0,0,0.42) !important;
+        }
+
+        #hero-showcase [id^="hero-imgcol-"] img,
+        #hero-showcase [id^="hero-imgcol-"] canvas {
+            border-radius: 16px !important;
+        }
+
+        #hero-text-col {
+            max-width: 1180px !important;
+            margin-left: auto !important;
+            margin-right: auto !important;
+            border-radius: 16px !important;
+        }
+
+        .section-label-pill {
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            min-height: 46px !important;
+            padding: 10px 14px !important;
+            border-radius: 12px !important;
+            background: rgba(255,255,255,0.045) !important;
+            border: 1px solid rgba(255,255,255,0.1) !important;
+            box-shadow: inset 0 1px 0 rgba(255,255,255,0.04) !important;
+            font-size: 1.05rem !important;
+            font-weight: 800 !important;
+            letter-spacing: 0.3px !important;
+            text-align: center !important;
+        }
+
+        .section-label-pill.muted {
+            color: #94a3b8 !important;
+        }
+
+        .section-label-pill.light {
+            color: #e2e8f0 !important;
+        }
+
+        .section-label-pill.bad {
+            color: #f87171 !important;
+            background: rgba(248,113,113,0.065) !important;
+            border-color: rgba(248,113,113,0.16) !important;
+        }
+
+        .section-label-pill.good {
+            color: var(--cyan) !important;
+            background: rgba(70,203,199,0.065) !important;
+            border-color: rgba(70,203,199,0.16) !important;
+        }
+
+        #hero-text-col .inst-span.active,
+        #hero-text-col .inst-span:hover {
+            background: rgba(255, 255, 255, 0.34) !important;
+            color: inherit !important;
+            outline: 2px solid rgba(255, 255, 255, 0.34) !important;
+            box-shadow: 0 0 0 1px rgba(70,203,199,0.45), 0 0 18px rgba(70,203,199,0.24) !important;
+        }
+
+        #qual-comparison-section .inst-span,
+        #text-col .inst-span {
+            display: inline !important;
+        }
+
+        @media (max-width: 768px) {
+            #hero-showcase {
+                width: min(94vw, 520px) !important;
+            }
+
+            #hero-showcase .hero-shell {
+                display: block !important;
+            }
+
+            #hero-prev-btn,
+            #hero-next-btn {
+                width: 44px !important;
+                height: 44px !important;
+                font-size: 1.05rem !important;
+                position: absolute !important;
+                top: 36% !important;
+                z-index: 30 !important;
+                background: rgba(15,23,42,0.76) !important;
+            }
+
+            #hero-prev-btn {
+                left: -6px !important;
+            }
+
+            #hero-next-btn {
+                right: -6px !important;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="hero-background"></div>
+    <div class="hero-overlay"></div>
+
+    <!-- ═══════════════════════════════════════════════════════ HERO -->
+    <div class="hero-section">
+
+        <h1 class="main-title">
+            <span class="title-highlight">InstanceControl</span>
+        </h1>
+        <p class="subtitle-highlight">
+            Controllable Complex Image Generation without Instance Labeling
+        </p>
+
+        <div class="authors-wrapper">
+            <div class="author-names">
+                <a href="#">Xiaoyu Liu</a><sup>1</sup>,&nbsp;
+                <a href="#">Huan Wang</a><sup>1</sup>,&nbsp;
+                <a href="#">Fan Li</a><sup>2</sup>,&nbsp;
+                <a href="#">Zhixin Wang</a><sup>2</sup>,&nbsp;
+                <a href="#">Jiaqi Xu</a><sup>2</sup>,&nbsp;
+                <a href="#">Ming Liu</a><sup>1</sup>,&nbsp;
+                <a href="#">Wangmeng Zuo</a><sup>1</sup>
+            </div>
+
+            <div class="institutions">
+                <span class="inst-block">
+                    <span><sup>1</sup> Harbin Institute of Technology</span>
+                </span>
+                <span class="separator">|</span>
+                <span class="inst-block">
+                    <span><sup>2</sup> Huawei Technologies Ltd</span>
+                </span>
+            </div>
+
+        </div>
+
+        <div class="nav-buttons">
+            <a href="#" class="pill-btn"><i class="fa-brands fa-github"></i> Code</a>
+            <a href="#" class="pill-btn"><i class="fa-solid fa-file-pdf"></i> arXiv</a>
+            <a href="#" class="pill-btn"><i class="fa-solid fa-database"></i> Dataset</a>
+        </div>
+
+        <!-- ═══ Hero Examples Showcase: 12345 / 1391 / 1253 ═══ -->
+        <div id="hero-showcase" style="
+            width: var(--content-width);
+            max-width: 100%;
+            margin: 3rem auto 0;
+            position: relative;
+            left: 50%;
+            transform: translateX(-50%);
+        ">
+            <div class="hero-shell" style="display:grid;grid-template-columns:58px minmax(0,1fr) 58px;align-items:center;gap:22px;">
+                <button id="hero-prev-btn" onclick="heroSwitchExample(-1)" style="
+                    flex-shrink:0;width:54px;height:54px;border-radius:50%;border:1px solid rgba(255,255,255,0.12);
+                    background:rgba(255,255,255,0.05);color:#fff;cursor:pointer;display:flex;align-items:center;
+                    justify-content:center;transition:all 0.3s ease;backdrop-filter:blur(8px);font-size:1.25rem;
+                " onmouseenter="this.style.background='rgba(70,203,199,0.2)';this.style.borderColor='var(--cyan)'"
+                   onmouseleave="this.style.background='rgba(255,255,255,0.05)';this.style.borderColor='rgba(255,255,255,0.12)'">
+                    <i class="fa-solid fa-chevron-left"></i>
+                </button>
+
+                <div style="flex:1;min-width:0;">
+                    <!-- Indicators -->
+                    <div style="display:flex;justify-content:center;margin-bottom:16px;gap:10px;" id="hero-indicators"></div>
+
+                    <!-- Three-column grid: Condition / ControlNet / Ours -->
+                    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;">
+                        <!-- Column labels -->
+                        <div class="section-label-pill light">
+                            <span>
+                                <i class="fa-solid fa-image" style="margin-right:6px;color:var(--orange);"></i>Condition
+                            </span>
+                        </div>
+                        <div class="section-label-pill bad">
+                            <span>
+                                😢 ControlNet
+                            </span>
+                        </div>
+                        <div class="section-label-pill good">
+                            <span>
+                                😊 <strong>Ours</strong>
+                            </span>
+                        </div>
+
+                        <!-- Condition image -->
+                        <div id="hero-imgcol-con" style="border-radius:14px;overflow:hidden;position:relative;border:1px solid rgba(255,255,255,0.08);box-shadow:0 8px 32px rgba(0,0,0,0.4);transition:all 0.4s ease;cursor:crosshair;"
+                             onmouseenter="this.style.transform='translateY(-4px)';this.style.boxShadow='0 16px 48px rgba(0,0,0,0.5)'"
+                             onmouseleave="this.style.transform='';this.style.boxShadow='0 8px 32px rgba(0,0,0,0.4)'">
+                            <img id="hero-img-con" src="./image/12345/con.png" alt="Condition" style="width:100%;display:block;border-radius:14px;">
+                            <canvas id="hero-canvas-con" style="position:absolute;inset:0;width:100%;height:100%;border-radius:14px;pointer-events:none;"></canvas>
+                        </div>
+
+                        <!-- ControlNet image -->
+                        <div id="hero-imgcol-controlnet" style="border-radius:14px;overflow:hidden;position:relative;border:1px solid rgba(248,113,113,0.12);box-shadow:0 8px 32px rgba(0,0,0,0.4);transition:all 0.4s ease;cursor:crosshair;"
+                             onmouseenter="this.style.transform='translateY(-4px)';this.style.boxShadow='0 16px 48px rgba(248,113,113,0.1)'"
+                             onmouseleave="this.style.transform='';this.style.boxShadow='0 8px 32px rgba(0,0,0,0.4)'">
+                            <img id="hero-img-controlnet" src="./image/12345/controlnet.png" alt="ControlNet" style="width:100%;display:block;border-radius:14px;">
+                            <canvas id="hero-canvas-controlnet" style="position:absolute;inset:0;width:100%;height:100%;border-radius:14px;pointer-events:none;"></canvas>
+                            <div style="position:absolute;top:10px;right:10px;background:rgba(248,113,113,0.85);color:#fff;font-size:0.75rem;padding:3px 10px;border-radius:12px;font-weight:600;backdrop-filter:blur(4px);">😢 ControlNet</div>
+                        </div>
+
+                        <!-- Ours image -->
+                        <div id="hero-imgcol-our" style="border-radius:14px;overflow:hidden;position:relative;border:1px solid rgba(70,203,199,0.15);box-shadow:0 8px 32px rgba(0,0,0,0.4),0 0 24px rgba(70,203,199,0.06);transition:all 0.4s ease;cursor:crosshair;"
+                             onmouseenter="this.style.transform='translateY(-4px)';this.style.boxShadow='0 16px 48px rgba(70,203,199,0.15)'"
+                             onmouseleave="this.style.transform='';this.style.boxShadow='0 8px 32px rgba(0,0,0,0.4),0 0 24px rgba(70,203,199,0.06)'">
+                            <img id="hero-img-our" src="./image/12345/our.png" alt="Ours" style="width:100%;display:block;border-radius:14px;">
+                            <canvas id="hero-canvas-our" style="position:absolute;inset:0;width:100%;height:100%;border-radius:14px;pointer-events:none;"></canvas>
+                            <div style="position:absolute;top:10px;right:10px;background:rgba(70,203,199,0.85);color:#fff;font-size:0.75rem;padding:3px 10px;border-radius:12px;font-weight:600;backdrop-filter:blur(4px);">😊 Ours</div>
+                        </div>
+                    </div>
+                    <div id="hero-text-col" style="
+                        margin-top: 14px;
+                        max-height: 132px;
+                        overflow-y: auto;
+                        padding: 14px 16px;
+                        border-radius: 14px;
+                        border: 1px solid rgba(255,255,255,0.08);
+                        background: rgba(15,15,20,0.78);
+                        color: #dbe3ee;
+                        font-size: 0.9rem;
+                        line-height: 1.9;
+                        text-align: left;
+                        backdrop-filter: blur(8px);
+                    "></div>
+                </div>
+
+                <button id="hero-next-btn" onclick="heroSwitchExample(1)" style="
+                    flex-shrink:0;width:54px;height:54px;border-radius:50%;border:1px solid rgba(255,255,255,0.12);
+                    background:rgba(255,255,255,0.05);color:#fff;cursor:pointer;display:flex;align-items:center;
+                    justify-content:center;transition:all 0.3s ease;backdrop-filter:blur(8px);font-size:1.25rem;
+                " onmouseenter="this.style.background='rgba(70,203,199,0.2)';this.style.borderColor='var(--cyan)'"
+                   onmouseleave="this.style.background='rgba(255,255,255,0.05)';this.style.borderColor='rgba(255,255,255,0.12)'">
+                    <i class="fa-solid fa-chevron-right"></i>
+                </button>
+            </div>
+        </div>
+        <script>
+        (function() {
+            var HERO_EXAMPLES = [
+                { folder: '12345',  label: 'Court Scene'   },
+                { folder: '1391',   label: 'Cozy Interior' },
+                { folder: '1253',   label: 'Red Carpet'    },
+            ];
+            var PALETTE = [
+                '#46cbc7', '#de5a1d', '#a855f7', '#f59e0b',
+                '#22c55e', '#f43f5e', '#38bdf8', '#fb923c',
+                '#a3e635', '#e879f9', '#34d399', '#fbbf24',
+                '#60a5fa', '#f472b6', '#34d399', '#facc15',
+                '#a78bfa'
+            ];
+            var heroIdx = 0;
+            var activeInstance = 0;
+            var visibleInstances = new Set();
+            var maskConfig = {};
+            var maskCache = {};
+            var heroTimer = null;
+            var heroResumeTimer = null;
+            var heroAutoInstanceIndex = -1;
+            var heroImagesReady = false;
+            var heroImgs = {
+                con: document.getElementById('hero-img-con'),
+                controlnet: document.getElementById('hero-img-controlnet'),
+                our: document.getElementById('hero-img-our')
+            };
+            var heroCanvases = {
+                con: document.getElementById('hero-canvas-con'),
+                controlnet: document.getElementById('hero-canvas-controlnet'),
+                our: document.getElementById('hero-canvas-our')
+            };
+
+            function hexToRgb(hex) {
+                return [parseInt(hex.slice(1,3),16), parseInt(hex.slice(3,5),16), parseInt(hex.slice(5,7),16)];
+            }
+            function hexToRgbStr(hex) { var rgb = hexToRgb(hex); return rgb[0]+','+rgb[1]+','+rgb[2]; }
+            function escapeHtml(str) {
+                return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+            }
+            function syncCanvasSize(key) {
+                var img = heroImgs[key];
+                var canvas = heroCanvases[key];
+                canvas.width = img.naturalWidth || img.clientWidth;
+                canvas.height = img.naturalHeight || img.clientHeight;
+            }
+            function clearOverlay(key) {
+                var canvas = heroCanvases[key];
+                canvas.getContext('2d').clearRect(0, 0, canvas.width, canvas.height);
+            }
+            function clearAllOverlays() {
+                ['con','controlnet','our'].forEach(clearOverlay);
+            }
+            function loadConfig(folder) {
+                if (maskConfig[folder]) return Promise.resolve(maskConfig[folder]);
+                return fetch('./image/' + folder + '/config.json')
+                    .then(function(r) { return r.json(); })
+                    .then(function(cfg) { maskConfig[folder] = cfg; return cfg; })
+                    .catch(function() { maskConfig[folder] = { masks: {} }; return maskConfig[folder]; });
+            }
+            function loadMask(folder, instanceId) {
+                var cacheKey = folder + ':' + instanceId;
+                if (maskCache[cacheKey] !== undefined) return Promise.resolve(maskCache[cacheKey]);
+                return loadConfig(folder).then(function(cfg) {
+                    var filename = cfg.masks[String(instanceId)];
+                    if (!filename) { maskCache[cacheKey] = null; return null; }
+                    return new Promise(function(resolve) {
+                        var img = new Image();
+                        img.onload = function() {
+                            try {
+                                var off = document.createElement('canvas');
+                                off.width = img.naturalWidth;
+                                off.height = img.naturalHeight;
+                                var ctx = off.getContext('2d');
+                                ctx.drawImage(img, 0, 0);
+                                var data = ctx.getImageData(0, 0, off.width, off.height);
+                                var binary = new Uint8Array(data.data.length / 4);
+                                for (var i = 0; i < binary.length; i++) {
+                                    binary[i] = data.data[i * 4] > 128 ? 1 : 0;
+                                }
+                                var result = { binary: binary, width: off.width, height: off.height };
+                                maskCache[cacheKey] = result;
+                                resolve(result);
+                            } catch(e) {
+                                maskCache[cacheKey] = null;
+                                resolve(null);
+                            }
+                        };
+                        img.onerror = function() { maskCache[cacheKey] = null; resolve(null); };
+                        img.src = './image/' + folder + '/mask/' + filename;
+                    });
+                });
+            }
+            function drawOverlay(key, maskData, color) {
+                var canvas = heroCanvases[key];
+                var ctx = canvas.getContext('2d');
+                syncCanvasSize(key);
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                if (!maskData) return;
+                var binary = maskData.binary, mw = maskData.width, mh = maskData.height;
+                var cw = canvas.width, ch = canvas.height;
+                var rgb = hexToRgb(color);
+                var overlayData = ctx.createImageData(cw, ch);
+                var BORDER = 5;
+                for (var py = 0; py < ch; py++) {
+                    for (var px = 0; px < cw; px++) {
+                        var mx = Math.min(Math.floor(px * mw / cw), mw - 1);
+                        var my = Math.min(Math.floor(py * mh / ch), mh - 1);
+                        if (binary[my * mw + mx] !== 1) continue;
+                        var isBorder = false;
+                        outer: for (var dy = -BORDER; dy <= BORDER; dy++) {
+                            for (var dx = -BORDER; dx <= BORDER; dx++) {
+                                var nx = mx + dx, ny = my + dy;
+                                if (nx < 0 || nx >= mw || ny < 0 || ny >= mh || binary[ny * mw + nx] === 0) {
+                                    isBorder = true;
+                                    break outer;
+                                }
+                            }
+                        }
+                        var idx = (py * cw + px) * 4;
+                        overlayData.data[idx] = rgb[0];
+                        overlayData.data[idx + 1] = rgb[1];
+                        overlayData.data[idx + 2] = rgb[2];
+                        overlayData.data[idx + 3] = isBorder ? 255 : 90;
+                    }
+                }
+                ctx.putImageData(overlayData, 0, 0);
+            }
+            function getHeroInstanceIds() {
+                return Array.from(visibleInstances).sort(function(a, b) { return a - b; });
+            }
+            function setActiveInstance(id, options) {
+                options = options || {};
+                if (options.manual) pauseHeroAutoForManual();
+                activeInstance = id;
+                document.querySelectorAll('#hero-text-col .inst-span').forEach(function(span) {
+                    span.classList.toggle('active', parseInt(span.dataset.id) === id);
+                });
+                if (!visibleInstances.has(id)) { clearAllOverlays(); return; }
+                var folder = HERO_EXAMPLES[heroIdx].folder;
+                var color = PALETTE[(id - 1) % PALETTE.length];
+                loadMask(folder, id).then(function(maskData) {
+                    ['con','controlnet','our'].forEach(function(key) { drawOverlay(key, maskData, color); });
+                });
+            }
+            function pauseHeroAuto() {
+                if (heroTimer) {
+                    clearInterval(heroTimer);
+                    heroTimer = null;
+                }
+            }
+            function pauseHeroAutoForManual() {
+                pauseHeroAuto();
+                if (heroResumeTimer) clearTimeout(heroResumeTimer);
+                heroResumeTimer = setTimeout(function() {
+                    heroResumeTimer = null;
+                    startHeroAuto();
+                }, 30000);
+            }
+            function startHeroAuto() {
+                pauseHeroAuto();
+                if (heroResumeTimer) {
+                    clearTimeout(heroResumeTimer);
+                    heroResumeTimer = null;
+                }
+                heroTimer = setInterval(heroAutoStep, 1600);
+            }
+            function heroAutoStep() {
+                var ids = getHeroInstanceIds();
+                if (!heroImagesReady || ids.length === 0) return;
+                heroAutoInstanceIndex += 1;
+                if (heroAutoInstanceIndex >= ids.length) {
+                    heroIdx = (heroIdx + 1) % HERO_EXAMPLES.length;
+                    heroRender();
+                    return;
+                }
+                var id = ids[heroAutoInstanceIndex];
+                setActiveInstance(id);
+                scrollHeroTextToInstance(id);
+            }
+            function scrollHeroTextToInstance(id) {
+                var textCol = document.getElementById('hero-text-col');
+                var span = textCol.querySelector('.inst-span[data-id="' + id + '"]');
+                if (!span) return;
+                textCol.scrollTo({
+                    top: span.offsetTop - textCol.clientHeight / 2 + span.offsetHeight / 2,
+                    behavior: 'smooth'
+                });
+            }
+            function parseHeroText(rawText, cfg) {
+                var textCol = document.getElementById('hero-text-col');
+                visibleInstances.clear();
+                Object.keys((cfg && cfg.masks) || {}).forEach(function(id) {
+                    visibleInstances.add(parseInt(id));
+                });
+                var circledMap = {};
+                for (var i = 0; i < 20; i++) circledMap[String.fromCodePoint(0x2460 + i)] = i + 1;
+                for (var j = 0; j < 10; j++) circledMap[String.fromCodePoint(0x3251 + j)] = j + 21;
+                var tokenPattern = /([\u2460-\u2473\u3251-\u325A])|(<p>)|(<\/p>)|(<vis=true>)|(<vis=false>)/gi;
+                var html = '', lastIndex = 0, currentId = null, match;
+                while ((match = tokenPattern.exec(rawText)) !== null) {
+                    if (match.index > lastIndex) {
+                        var plain = rawText.slice(lastIndex, match.index);
+                        if (currentId !== null) {
+                            if (visibleInstances.has(currentId)) {
+                                var color = PALETTE[(currentId - 1) % PALETTE.length];
+                                html += '<span class="inst-span" data-id="' + currentId + '"'
+                                    + ' style="background:rgba(' + hexToRgbStr(color) + ',0.15);border-bottom:2px solid '
+                                    + color + ';color:' + color + ';font-weight:600;">'
+                                    + escapeHtml(plain.trim()) + '</span>';
+                            } else {
+                                html += '<span style="text-decoration:underline;text-underline-offset:3px;color:inherit;">'
+                                    + escapeHtml(plain.trim()) + '</span>';
+                            }
+                        } else {
+                            html += escapeHtml(plain);
+                        }
+                    }
+                    lastIndex = match.index + match[0].length;
+                    if (match[1]) currentId = circledMap[match[1]] || null;
+                    else if (match[3]) currentId = null;
+                }
+                if (lastIndex < rawText.length) html += escapeHtml(rawText.slice(lastIndex));
+                textCol.innerHTML = html;
+                heroAutoInstanceIndex = -1;
+                textCol.querySelectorAll('.inst-span').forEach(function(span) {
+                    var id = parseInt(span.dataset.id);
+                    span.addEventListener('mouseenter', function() { setActiveInstance(id); });
+                    span.addEventListener('click', function() { setActiveInstance(id, { manual: true }); });
+                });
+                if (!textCol.dataset.heroInstanceEventsBound) {
+                    var findSpanAtPoint = function(event) {
+                        var x = event.clientX;
+                        var y = event.clientY;
+                        var spans = textCol.querySelectorAll('.inst-span');
+                        for (var i = 0; i < spans.length; i++) {
+                            var rects = spans[i].getClientRects();
+                            for (var j = 0; j < rects.length; j++) {
+                                var rect = rects[j];
+                                if (x >= rect.left && x <= rect.right && y >= rect.top && y <= rect.bottom) {
+                                    return spans[i];
+                                }
+                            }
+                        }
+                        return null;
+                    };
+                    var activateFromTextPoint = function(event) {
+                        var target = event.target.closest && event.target.closest('.inst-span');
+                        var span = target || findSpanAtPoint(event);
+                        if (!span) return;
+                        setActiveInstance(parseInt(span.dataset.id), { manual: event.type === 'click' });
+                    };
+                    textCol.addEventListener('click', activateFromTextPoint);
+                    textCol.addEventListener('mousemove', activateFromTextPoint);
+                    textCol.dataset.heroInstanceEventsBound = 'true';
+                }
+            }
+            function buildHeroText(folder) {
+                Promise.all([
+                    fetch('./image/' + folder + '/promt.txt').then(function(r) { if (!r.ok) throw new Error(); return r.text(); }),
+                    loadConfig(folder)
+                ])
+                    .then(function(result) { parseHeroText(result[0], result[1]); })
+                    .catch(function() {
+                        document.getElementById('hero-text-col').innerHTML =
+                            '<span style="color:#f43f5e;">Could not load promt.txt. Please serve via HTTP.</span>';
+                    });
+            }
+            function preloadMasks(folder) {
+                loadConfig(folder).then(function(cfg) {
+                    Object.keys(cfg.masks).forEach(function(id) { loadMask(folder, parseInt(id)); });
+                });
+            }
+            function setupHeroImgHover(key) {
+                var col = document.getElementById('hero-imgcol-' + key);
+                var hoverTimeout = null;
+                function activateAtPoint(e, manual) {
+                    var folder = HERO_EXAMPLES[heroIdx].folder;
+                    var img = heroImgs[key];
+                    var rect = img.getBoundingClientRect();
+                    var relX = (e.clientX - rect.left) / rect.width;
+                    var relY = (e.clientY - rect.top) / rect.height;
+                    if (relX < 0 || relX > 1 || relY < 0 || relY > 1) return;
+                    Array.from(visibleInstances).some(function(id) {
+                        loadMask(folder, id).then(function(maskData) {
+                            if (!maskData || activeInstance === id) return;
+                            var mx = Math.min(Math.floor(relX * maskData.width), maskData.width - 1);
+                            var my = Math.min(Math.floor(relY * maskData.height), maskData.height - 1);
+                            if (maskData.binary[my * maskData.width + mx] === 1) {
+                                setActiveInstance(id, { manual: manual });
+                                scrollHeroTextToInstance(id);
+                            }
+                        });
+                        return false;
+                    });
+                }
+                col.addEventListener('mousemove', function(e) {
+                    clearTimeout(hoverTimeout);
+                    hoverTimeout = setTimeout(function() { activateAtPoint(e, false); }, 50);
+                });
+                col.addEventListener('click', function(e) { activateAtPoint(e, true); });
+            }
+            function heroRender() {
+                var ex = HERO_EXAMPLES[heroIdx];
+                activeInstance = 0;
+                heroAutoInstanceIndex = -1;
+                heroImagesReady = false;
+                maskCache = {};
+                clearAllOverlays();
+                document.getElementById('hero-img-con').src = './image/' + ex.folder + '/con.png';
+                document.getElementById('hero-img-controlnet').src = './image/' + ex.folder + '/controlnet.png';
+                document.getElementById('hero-img-our').src = './image/' + ex.folder + '/our.png';
+                buildHeroText(ex.folder);
+                var container = document.getElementById('hero-indicators');
+                container.innerHTML = '';
+                HERO_EXAMPLES.forEach(function(e, i) {
+                    var dot = document.createElement('div');
+                    dot.style.cssText = 'height:4px;border-radius:2px;cursor:pointer;transition:all 0.3s ease;';
+                    dot.style.width = i === heroIdx ? '40px' : '20px';
+                    dot.style.background = i === heroIdx ? 'var(--cyan)' : '#333';
+                    dot.style.boxShadow = i === heroIdx ? '0 0 8px var(--cyan)' : 'none';
+                    dot.title = e.label;
+                    dot.addEventListener('click', function() { pauseHeroAutoForManual(); heroIdx = i; heroRender(); });
+                    container.appendChild(dot);
+                });
+                var allLoaded = Object.keys(heroImgs).map(function(key) {
+                    return new Promise(function(resolve) {
+                        var img = heroImgs[key];
+                        img.onload = resolve;
+                        img.onerror = resolve;
+                        if (img.complete && img.naturalWidth > 0) resolve();
+                    });
+                });
+                Promise.all(allLoaded).then(function() {
+                    heroImagesReady = true;
+                    ['con','controlnet','our'].forEach(syncCanvasSize);
+                    preloadMasks(ex.folder);
+                });
+            }
+            window.heroSwitchExample = function(dir) {
+                pauseHeroAutoForManual();
+                heroIdx = (heroIdx + dir + HERO_EXAMPLES.length) % HERO_EXAMPLES.length;
+                heroRender();
+            };
+            setupHeroImgHover('con');
+            setupHeroImgHover('controlnet');
+            setupHeroImgHover('our');
+            heroRender();
+            startHeroAuto();
+        })();
+        </script>
+
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════ CONTENT -->
+    <section class="content-section">
+        <div class="container">
+
+            <!-- Abstract -->
+            <div class="abstract-box">
+                <h2 style="color: var(--cyan); font-size: 1.5rem; font-weight: 700; letter-spacing: 0.5px; margin-bottom: 1.4rem;">Abstract</h2>
+                <p style="font-size: 1.08rem; line-height: 2.0; color: #d1d5db; margin-bottom: 1.2rem;">
+                    Controllable image generation methods, such as ControlNet, have demonstrated a remarkable capacity
+                    to introduce visual conditions (<em>e.g.</em>, depth maps) to guide image generation. However,
+                    these methods often struggle with complex multi-instance scenes, frequently leading to
+                    <strong>attribute confusion</strong> among instances. While recent approaches attempt to mitigate
+                    this via manual instance labeling, such requirements are labor-intensive. 
+                    In this paper, we propose <strong style="color: var(--orange);">InstanceControl</strong>, a novel
+                    multi-instance controllable generation method that <strong>eliminates the need for instance
+                    labeling</strong>. We identify the primary bottleneck in existing methods as the inability to
+                    accurately associate instance descriptions with their corresponding regions within visual conditions.
+                    To address this, we leverage the <strong>Vision-Language Model (VLM)</strong> to establish
+                    instance-level correspondences between text prompts and visual conditions. Specifically, the VLM
+                    automatically parses instance descriptions from the text prompts and simultaneously predicts
+                    instance masks based on the visual conditions. Furthermore, since the predicted masks may contain
+                    noise, we introduce an <strong>adaptive mask refinement strategy</strong> that dynamically refines
+                    these instance masks during the generation process. Extensive experiments demonstrate that our
+                    approach outperforms state-of-the-art methods, achieving superior fidelity and precise
+                    instance-level control.
+                </p>
+            </div>
+
+            <!-- Key Insights -->
+            <!-- Method Pipeline -->
+            <h2 style="text-align: center; margin-bottom: 0.5rem;">Methodology</h2>
+            <div class="section-divider"></div>
+            <div style="margin-bottom: 1.5rem; margin-top: 2rem;">
+                <div class="pipeline-container">
+                    <img src="./statics/images/pipeline.png" alt="InstanceControl Pipeline" style="background-color: #fff; border-radius: 6px;">
+                </div>
+                <p class="fig-caption">
+                    <strong>Figure 1.</strong> Overview of InstanceControl. Our framework consists of two core stages:
+                    (1) instance-level text-visual condition association via VLM, and
+                    (2) instance-aware controllable generation with adaptive mask refinement.
+                </p>
+            </div>
+
+            <!-- Experimental Results -->
+            <h2 style="text-align: center; margin-bottom: 0.5rem;">Experimental Results</h2>
+            <div class="section-divider" style="margin-bottom: 3rem;"></div>
+
+            <!-- Table 1: Quantitative Comparison (Real Data) -->
+            <div class="results-breakout-container">
+                <div class="table-title">
+                    <i class="fa-solid fa-table"></i>
+                    Table 1: Quantitative Comparison on Multi-Instance Controllable Generation
+                </div>
+                <table class="custom-table">
+                    <thead>
+                        <tr>
+                            <th rowspan="3" style="min-width:90px;">Setting</th>
+                            <th rowspan="3" style="min-width:220px;">Methods</th>
+                            <th rowspan="3" style="text-align:center; vertical-align:middle;">MIoU↑</th>
+                            <th colspan="5" class="group-header">Region-wise Quality</th>
+                            <th colspan="2" class="group-header">Global-wise Quality</th>
+                        </tr>
+                        <tr>
+                            <th>Local CLIP↑</th>
+                            <th>Spatial↑</th>
+                            <th>Color↑</th>
+                            <th>Shape↑</th>
+                            <th>Texture↑</th>
+                            <th>IR↑</th>
+                            <th>FID↓</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- w/ Instance Labeling group -->
+                        <tr>
+                            <td rowspan="9" style="font-weight:600; color: #f59e0b; border-right: 2px solid #333; text-align:center; vertical-align:middle; line-height:1.4;">
+                                w/ Instance<br>Labeling
+                            </td>
+                            <td>EliGen</td>
+                            <td style="text-align:center">0.6104</td>
+                            <td>17.49</td>
+                            <td>91.97%</td>
+                            <td>84.98%</td>
+                            <td>85.59%</td>
+                            <td>87.93%</td>
+                            <td>0.3708</td>
+                            <td>27.8240</td>
+                        </tr>
+                        <tr>
+                            <td>CreatiLayout</td>
+                            <td style="text-align:center">0.5247</td>
+                            <td>16.84</td>
+                            <td>88.16%</td>
+                            <td>80.87%</td>
+                            <td>83.00%</td>
+                            <td>85.91%</td>
+                            <td>0.2979</td>
+                            <td>21.3988</td>
+                        </tr>
+                        <tr>
+                            <td>Seg2Any</td>
+                            <td style="text-align:center">0.8316</td>
+                            <td>18.62</td>
+                            <td>91.71%</td>
+                            <td>87.25%</td>
+                            <td>88.39%</td>
+                            <td>90.14%</td>
+                            <td>0.0893</td>
+                            <td>21.2305</td>
+                        </tr>
+                        <tr style="border-top: 1px solid #2a2a2a;">
+                            <td>DreamRenderer (Canny)</td>
+                            <td style="text-align:center">0.6497</td>
+                            <td>16.25</td>
+                            <td>80.74%</td>
+                            <td>67.55%</td>
+                            <td>69.20%</td>
+                            <td>74.68%</td>
+                            <td>0.1877</td>
+                            <td>14.5079</td>
+                        </tr>
+                        <tr class="highlight-row">
+                            <td>InstanceControl (Canny)</td>
+                            <td class="best-score" style="text-align:center">0.8381</td>
+                            <td class="best-score">18.97</td>
+                            <td class="best-score">95.34%</td>
+                            <td class="best-score">92.11%</td>
+                            <td class="best-score">92.29%</td>
+                            <td class="best-score">93.66%</td>
+                            <td class="best-score">0.2940</td>
+                            <td class="best-score">9.9340</td>
+                        </tr>
+                        <tr style="border-top: 1px solid #2a2a2a;">
+                            <td>DreamRenderer (Depth)</td>
+                            <td style="text-align:center">0.7738</td>
+                            <td>17.88</td>
+                            <td>89.52%</td>
+                            <td>80.91%</td>
+                            <td>81.45%</td>
+                            <td>86.69%</td>
+                            <td class="best-score">0.3206</td>
+                            <td>15.3637</td>
+                        </tr>
+                        <tr class="highlight-row">
+                            <td>InstanceControl (Depth)</td>
+                            <td class="best-score" style="text-align:center">0.8212</td>
+                            <td class="best-score">18.73</td>
+                            <td class="best-score">95.06%</td>
+                            <td class="best-score">91.35%</td>
+                            <td class="best-score">92.08%</td>
+                            <td class="best-score">93.47%</td>
+                            <td>0.2921</td>
+                            <td class="best-score">11.9211</td>
+                        </tr>
+                        <tr style="border-top: 1px solid #2a2a2a;">
+                            <td>DreamRenderer (HED)</td>
+                            <td style="text-align:center">0.7060</td>
+                            <td>15.08</td>
+                            <td>78.93%</td>
+                            <td>60.56%</td>
+                            <td>63.18%</td>
+                            <td>68.79%</td>
+                            <td>0.0392</td>
+                            <td>22.6739</td>
+                        </tr>
+                        <tr class="highlight-row">
+                            <td>InstanceControl (HED)</td>
+                            <td class="best-score" style="text-align:center">0.8504</td>
+                            <td class="best-score">19.08</td>
+                            <td class="best-score">95.77%</td>
+                            <td class="best-score">92.58%</td>
+                            <td class="best-score">92.77%</td>
+                            <td class="best-score">94.10%</td>
+                            <td class="best-score">0.3256</td>
+                            <td class="best-score">10.2175</td>
+                        </tr>
+
+                        <!-- w/o Instance Labeling group -->
+                        <tr style="border-top: 3px solid #888;">
+                            <td rowspan="6" style="font-weight:600; color: #22c55e; border-right: 1px solid #333; text-align:center; vertical-align:middle; line-height:1.4;">
+                                w/o Instance<br>Labeling
+                            </td>
+                            <td>FLUX ControlNet (Canny)</td>
+                            <td style="text-align:center">0.6526</td>
+                            <td>16.48</td>
+                            <td>84.67%</td>
+                            <td>73.30%</td>
+                            <td>73.93%</td>
+                            <td>79.24%</td>
+                            <td>0.2558</td>
+                            <td>14.0427</td>
+                        </tr>
+                        <tr class="highlight-row">
+                            <td>InstanceControl (Canny)</td>
+                            <td class="best-score" style="text-align:center">0.8250</td>
+                            <td class="best-score">18.51</td>
+                            <td class="best-score">93.54%</td>
+                            <td class="best-score">87.78%</td>
+                            <td class="best-score">88.19%</td>
+                            <td class="best-score">90.88%</td>
+                            <td class="best-score">0.2847</td>
+                            <td class="best-score">10.0264</td>
+                        </tr>
+                        <tr style="border-top: 1px solid #2a2a2a;">
+                            <td>FLUX ControlNet (Depth)</td>
+                            <td style="text-align:center">0.7782</td>
+                            <td>17.73</td>
+                            <td>90.14%</td>
+                            <td>75.87%</td>
+                            <td>78.20%</td>
+                            <td>82.33%</td>
+                            <td class="best-score">0.3216</td>
+                            <td>14.1077</td>
+                        </tr>
+                        <tr class="highlight-row">
+                            <td>InstanceControl (Depth)</td>
+                            <td class="best-score" style="text-align:center">0.8116</td>
+                            <td class="best-score">18.18</td>
+                            <td class="best-score">92.87%</td>
+                            <td class="best-score">86.11%</td>
+                            <td class="best-score">86.49%</td>
+                            <td class="best-score">89.91%</td>
+                            <td>0.2961</td>
+                            <td class="best-score">11.9181</td>
+                        </tr>
+                        <tr style="border-top: 1px solid #2a2a2a;">
+                            <td>FLUX ControlNet (HED)</td>
+                            <td style="text-align:center">0.6817</td>
+                            <td>15.67</td>
+                            <td>83.09%</td>
+                            <td>70.15%</td>
+                            <td>70.51%</td>
+                            <td>77.08%</td>
+                            <td>0.2314</td>
+                            <td>20.0755</td>
+                        </tr>
+                        <tr class="highlight-row">
+                            <td>InstanceControl (HED)</td>
+                            <td class="best-score" style="text-align:center">0.8472</td>
+                            <td class="best-score">18.74</td>
+                            <td class="best-score">94.64%</td>
+                            <td class="best-score">88.75%</td>
+                            <td class="best-score">89.55%</td>
+                            <td class="best-score">91.18%</td>
+                            <td class="best-score">0.3268</td>
+                            <td class="best-score">10.14</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <p class="table-caption">
+                    Comparison with state-of-the-art methods on multi-instance controllable generation across three visual conditions (Canny, Depth, HED).
+                    <strong style="color: var(--orange);">Bold</strong> values indicate the best result within each group.
+                    IR denotes Instance Reward. FID measures global image quality (lower is better).
+                    InstanceControl achieves the best performance in both settings, even surpassing methods that require instance labeling.
+                </p>
+            </div>
+
+            <!-- ═══ Qualitative Comparison: Instance-level Interactive View ═══ -->
+            <div id="qual-comparison-section" style="
+                background: rgba(8, 8, 12, 0.85);
+                border: 1px solid rgba(255,255,255,0.06);
+                border-radius: 20px;
+                padding: 2.5rem 2rem 2rem;
+                box-shadow: 0 20px 80px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.04);
+                backdrop-filter: blur(16px);
+                position: relative;
+                overflow: hidden;
+                margin-bottom: 4rem;
+            ">
+                <!-- Decorative gradient accent bar -->
+                <div style="
+                    position: absolute; top: 0; left: 0; right: 0; height: 3px;
+                    background: linear-gradient(90deg, var(--cyan), var(--orange), var(--cyan));
+                    border-radius: 20px 20px 0 0;
+                "></div>
+
+                <h3 style="
+                    color: #fff; margin-bottom: 6px; font-size: 1.8rem; text-align: center;
+                    font-weight: 800; letter-spacing: 0.5px;
+                ">
+                    <i class="fa-solid fa-magnifying-glass-chart" style="margin-right:10px;color:var(--cyan);font-size:1.5rem;"></i>
+                    Qualitative Comparison
+                </h3>
+                <p style="
+                    color: #64748b; font-size: 0.92rem; margin-bottom: 24px; text-align: center;
+                    font-style: italic; letter-spacing: 0.3px;
+                ">
+                    <i class="fa-solid fa-hand-pointer" style="margin-right:6px;color:var(--orange);"></i>
+                    Click or hover over any instance text or image region to highlight the corresponding object
+                </p>
+
+                <!-- Instance selector pills (hidden) -->
+                <div id="instance-pills" style="display:none;"></div>
+
+                <!-- Outer flex: prev-arrow | grid | next-arrow -->
+                <div style="
+                    display: flex;
+                    align-items: center;
+                    gap: 18px;
+                    width: 100%;
+                    max-width: 100%;
+                ">
+                    <button id="example-prev-btn" class="carousel-btn" title="Previous example" style="flex-shrink:0;">
+                        <i class="fa-solid fa-chevron-left"></i>
+                    </button>
+
+                    <!-- Four-column layout -->
+                    <div style="flex:1;display:flex;flex-direction:column;gap:0;">
+                        <!-- Example indicators centered above grid -->
+                        <div style="display:flex;justify-content:center;margin-bottom:12px;">
+                            <div id="example-indicators" style="display:flex;gap:8px;align-items:center;"></div>
+                        </div>
+                        <div id="qual-grid" style="
+                            display: grid;
+                            grid-template-columns: 1.2fr 1fr 1fr 1fr;
+                            grid-template-rows: auto auto;
+                            align-items: stretch;
+                            gap: 14px;
+                        ">
+                    <!-- Column headers -->
+                    <div class="qual-col-header section-label-pill muted">
+                        <i class="fa-solid fa-align-left" style="margin-right:8px;color:var(--cyan);"></i>Text Prompt
+                    </div>
+                    <div class="qual-col-header section-label-pill light">
+                        <i class="fa-solid fa-image" style="margin-right:8px;color:var(--orange);"></i>Condition
+                    </div>
+                    <div class="qual-col-header section-label-pill bad">
+                        😢 ControlNet
+                    </div>
+                    <div class="qual-col-header section-label-pill good">
+                        😊 Ours
+                    </div>
+
+                    <!-- Text column: height follows image columns via grid row height -->
+                    <div style="position:relative; align-self: stretch;">
+                        <div id="text-col" style="
+                            position: absolute;
+                            inset: 0;
+                            background: rgba(15,15,20,0.9);
+                            border: 1px solid rgba(255,255,255,0.08);
+                            border-radius: 14px;
+                            padding: 1.4rem 1.2rem;
+                            backdrop-filter: blur(8px);
+                            font-size: 0.92rem;
+                            line-height: 2.0;
+                            color: #e2e8f0;
+                            overflow-y: auto;
+                            box-shadow: inset 0 2px 8px rgba(0,0,0,0.3);
+                        "></div>
+                    </div>
+
+                    <!-- CON image column -->
+                    <div class="qual-img-col" id="imgcol-con">
+                        <img id="img-con" src="./image/JourneyDB_9468/con.png" alt="CON"
+                            style="width:100%;height:100%;object-fit:contain;border-radius:12px;display:block;">
+                        <canvas id="canvas-con" style="position:absolute;top:0;left:0;width:100%;height:100%;border-radius:12px;pointer-events:none;"></canvas>
+                    </div>
+
+                    <!-- ControlNet image column -->
+                    <div class="qual-img-col" id="imgcol-controlnet">
+                        <img id="img-controlnet" src="./image/JourneyDB_9468/controlnet.jpg" alt="ControlNet"
+                            style="width:100%;height:100%;object-fit:contain;border-radius:12px;display:block;">
+                        <canvas id="canvas-controlnet" style="position:absolute;top:0;left:0;width:100%;height:100%;border-radius:12px;pointer-events:none;"></canvas>
+                        <div class="col-badge sad-badge">😢</div>
+                    </div>
+
+                    <!-- Ours image column -->
+                    <div class="qual-img-col" id="imgcol-our">
+                        <img id="img-our" src="./image/JourneyDB_9468/our.png" alt="Ours"
+                            style="width:100%;height:100%;object-fit:contain;border-radius:12px;display:block;">
+                        <canvas id="canvas-our" style="position:absolute;top:0;left:0;width:100%;height:100%;border-radius:12px;pointer-events:none;"></canvas>
+                        <div class="col-badge happy-badge">😊</div>
+                    </div>
+                        </div>
+                    </div><!-- end flex-column -->
+
+                    <button id="example-next-btn" class="carousel-btn" title="Next example" style="flex-shrink:0;">
+                        <i class="fa-solid fa-chevron-right"></i>
+                    </button>
+                </div><!-- end outer flex -->
+            </div><!-- end qual-comparison-section -->
+
+            <!-- ═══ More Results: Two-column Instance View ═══ -->
+            <div id="more-results-section">
+                <h3 style="color: #fff; margin-bottom: 8px; font-size: 1.8rem; text-align: center;">
+                    Visualization of Learned Correspondences
+                </h3>
+                <p style="color: #64748b; font-size: 0.9rem; margin-bottom: 16px; text-align: center;">
+                    Hover over any instance text or image region to highlight the corresponding object
+                </p>
+
+                <!-- Outer flex: prev-arrow | content | next-arrow -->
+                <div style="
+                    display: flex;
+                    align-items: center;
+                    gap: 18px;
+                    width: 100%;
+                    max-width: 100%;
+                ">
+                    <button id="more-prev-btn" class="carousel-btn" title="Previous example" style="flex-shrink:0;">
+                        <i class="fa-solid fa-chevron-left"></i>
+                    </button>
+
+                    <div style="flex:1;display:flex;flex-direction:column;gap:0;">
+                        <!-- Example indicators -->
+                        <div style="display:flex;justify-content:center;margin-bottom:12px;">
+                            <div id="more-indicators" style="display:flex;gap:8px;align-items:center;"></div>
+                        </div>
+
+                        <!-- Two-column grid: Text Prompt | Condition -->
+                        <div id="more-grid" style="
+                            display: grid;
+                            grid-template-columns: 3fr 1fr;
+                            grid-template-rows: auto auto;
+                            align-items: stretch;
+                            gap: 12px;
+                        ">
+                            <!-- Column headers -->
+                            <div class="qual-col-header section-label-pill muted">
+                                <i class="fa-solid fa-align-left" style="margin-right:6px;"></i>Instance Descriptions
+                            </div>
+                            <div class="qual-col-header section-label-pill light">
+                                <i class="fa-solid fa-image" style="margin-right:6px;"></i>Instance Masks
+                            </div>
+
+                            <!-- Text column -->
+                            <div style="position:relative;align-self:stretch;">
+                                <div id="more-text-col" style="
+                                    position: absolute;
+                                    inset: 0;
+                                    background: rgba(15,15,20,0.85);
+                                    border: 1px solid rgba(255,255,255,0.1);
+                                    border-radius: 14px;
+                                    padding: 1.4rem 1.2rem;
+                                    backdrop-filter: blur(8px);
+                                    font-size: 0.95rem;
+                                    line-height: 2.0;
+                                    color: #e2e8f0;
+                                    overflow-y: auto;
+                                "></div>
+                            </div>
+
+                            <!-- Condition image column -->
+                            <div class="qual-img-col" id="more-imgcol-con">
+                                <img id="more-img-con" src="" alt="Condition"
+                                    style="width:100%;height:100%;object-fit:contain;border-radius:12px;display:block;">
+                                <canvas id="more-canvas-con" style="position:absolute;top:0;left:0;width:100%;height:100%;border-radius:12px;pointer-events:none;"></canvas>
+                            </div>
+                        </div>
+                    </div>
+
+                    <button id="more-next-btn" class="carousel-btn" title="Next example" style="flex-shrink:0;">
+                        <i class="fa-solid fa-chevron-right"></i>
+                    </button>
+                </div>
+            </div>
+
+
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="site-footer">
+        <div class="container">
+            <p class="credits">
+                Copyright &copy; 2026 InstanceControl Project. All rights reserved.
+                &nbsp;|&nbsp;
+                Website design assisted by
+                <span style="font-weight: 600; color: #94a3b8;">
+                    <i class="fa-solid fa-wand-magic-sparkles"></i> Aone Copilot
+                </span>
+            </p>
+        </div>
+    </footer>
+
+    <!-- Qualitative Comparison: Instance-level Interactive Logic -->
+    <script>
+    (function () {
+        // ── Example definitions ───────────────────────────────────────────────
+        const EXAMPLES = [
+            { folder: 'JourneyDB_9468',  label: 'JourneyDB'  },
+            { folder: 'JourneyDB_2862',  label: 'JourneyDB'  },
+            { folder: 'dalle3_2006',     label: 'DALL·E 3'   },
+            { folder: 'sa_2857196',      label: 'SA-1B'      },
+            { folder: '000000470770',    label: 'COCO'        },
+            { folder: '670',             label: 'COCO'        },
+        ];
+
+        const PALETTE = [
+            '#46cbc7', '#de5a1d', '#a855f7', '#f59e0b',
+            '#22c55e', '#f43f5e', '#38bdf8', '#fb923c',
+            '#a3e635', '#e879f9', '#34d399', '#fbbf24',
+            '#60a5fa', '#f472b6', '#34d399', '#facc15',
+            '#a78bfa', '#fb7185', '#4ade80', '#38bdf8',
+        ];
+
+        function hexToRgb(hex) {
+            return [parseInt(hex.slice(1,3),16), parseInt(hex.slice(3,5),16), parseInt(hex.slice(5,7),16)];
+        }
+        function hexToRgbStr(hex) { const [r,g,b] = hexToRgb(hex); return r+','+g+','+b; }
+        function escapeHtml(str) {
+            return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+        }
+
+        // ── State ─────────────────────────────────────────────────────────────
+        let currentExampleIdx = 0;
+        let activeInstance = 0;
+        let visibleInstances = new Set();
+        let maskCache = {};      // folder+id -> binary mask data
+        let maskConfig = {};     // folder -> { masks: { id: filename } }
+
+        // ── Canvas / img refs ─────────────────────────────────────────────────
+        const canvases = {
+            con:        document.getElementById('canvas-con'),
+            controlnet: document.getElementById('canvas-controlnet'),
+            our:        document.getElementById('canvas-our'),
+        };
+        const imgEls = {
+            con:        document.getElementById('img-con'),
+            controlnet: document.getElementById('img-controlnet'),
+            our:        document.getElementById('img-our'),
+        };
+
+        function syncCanvasSize(key) {
+            const img = imgEls[key];
+            const canvas = canvases[key];
+            canvas.width  = img.naturalWidth  || img.clientWidth;
+            canvas.height = img.naturalHeight || img.clientHeight;
+        }
+
+        function clearOverlay(key) {
+            const canvas = canvases[key];
+            canvas.getContext('2d').clearRect(0, 0, canvas.width, canvas.height);
+        }
+
+        // ── Load config.json for a folder ─────────────────────────────────────
+        function loadConfig(folder) {
+            if (maskConfig[folder]) return Promise.resolve(maskConfig[folder]);
+            return fetch('./image/' + folder + '/config.json')
+                .then(r => r.json())
+                .then(cfg => { maskConfig[folder] = cfg; return cfg; })
+                .catch(() => { maskConfig[folder] = { masks: {} }; return maskConfig[folder]; });
+        }
+
+        // ── Load mask image → binary pixel array ──────────────────────────────
+        function loadMask(folder, instanceId) {
+            const cacheKey = folder + ':' + instanceId;
+            if (maskCache[cacheKey] !== undefined) return Promise.resolve(maskCache[cacheKey]);
+
+            return loadConfig(folder).then(cfg => {
+                const filename = cfg.masks[String(instanceId)];
+                if (!filename) { maskCache[cacheKey] = null; return null; }
+
+                return new Promise(resolve => {
+                    const img = new Image();
+                    img.onload = () => {
+                        try {
+                            const off = document.createElement('canvas');
+                            off.width = img.naturalWidth; off.height = img.naturalHeight;
+                            const ctx = off.getContext('2d');
+                            ctx.drawImage(img, 0, 0);
+                            const data = ctx.getImageData(0, 0, off.width, off.height);
+                            const binary = new Uint8Array(data.data.length / 4);
+                            for (let i = 0; i < binary.length; i++) {
+                                binary[i] = data.data[i * 4] > 128 ? 1 : 0;
+                            }
+                            const result = { binary, width: off.width, height: off.height };
+                            maskCache[cacheKey] = result;
+                            resolve(result);
+                        } catch(e) { maskCache[cacheKey] = null; resolve(null); }
+                    };
+                    img.onerror = () => { maskCache[cacheKey] = null; resolve(null); };
+                    img.src = './image/' + folder + '/mask/' + filename;
+                });
+            });
+        }
+
+        // ── Draw mask highlight overlay ───────────────────────────────────────
+        function drawOverlay(key, maskData, color) {
+            const canvas = canvases[key];
+            const ctx = canvas.getContext('2d');
+            syncCanvasSize(key);
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            if (!maskData) return;
+
+            const { binary, width: mw, height: mh } = maskData;
+            const cw = canvas.width, ch = canvas.height;
+            const [r, g, b] = hexToRgb(color);
+            const BORDER = 5;
+            const overlayData = ctx.createImageData(cw, ch);
+
+            for (let py = 0; py < ch; py++) {
+                for (let px = 0; px < cw; px++) {
+                    const mx = Math.min(Math.floor(px * mw / cw), mw - 1);
+                    const my = Math.min(Math.floor(py * mh / ch), mh - 1);
+                    if (binary[my * mw + mx] !== 1) continue;
+                    let isBorder = false;
+                    outer: for (let dy = -BORDER; dy <= BORDER; dy++) {
+                        for (let dx = -BORDER; dx <= BORDER; dx++) {
+                            const nx = mx+dx, ny = my+dy;
+                            if (nx<0||nx>=mw||ny<0||ny>=mh||binary[ny*mw+nx]===0) { isBorder=true; break outer; }
+                        }
+                    }
+                    const idx = (py * cw + px) * 4;
+                    overlayData.data[idx]   = r;
+                    overlayData.data[idx+1] = g;
+                    overlayData.data[idx+2] = b;
+                    overlayData.data[idx+3] = isBorder ? 255 : 90;
+                }
+            }
+            ctx.putImageData(overlayData, 0, 0);
+        }
+
+        // ── Render mask for active instance ───────────────────────────────────
+        async function renderAll(instanceId) {
+            const folder = EXAMPLES[currentExampleIdx].folder;
+            if (!visibleInstances.has(instanceId)) {
+                for (const key of ['con','controlnet','our']) clearOverlay(key);
+                return;
+            }
+            const color = PALETTE[(instanceId - 1) % PALETTE.length];
+            const maskData = await loadMask(folder, instanceId);
+            for (const key of ['con','controlnet','our']) drawOverlay(key, maskData, color);
+        }
+
+        // ── Set active instance ────────────────────────────────────────────────
+        function setActiveInstance(id) {
+            activeInstance = id;
+            updateInstanceUI();
+            renderAll(id);
+        }
+
+        function setActiveTextOnly(id) {
+            activeInstance = id;
+            document.querySelectorAll('.inst-span').forEach(span => {
+                span.classList.toggle('active', parseInt(span.dataset.id) === id);
+            });
+            for (const key of ['con','controlnet','our']) clearOverlay(key);
+        }
+
+        function updateInstanceUI() {
+            document.querySelectorAll('.inst-span').forEach(span => {
+                span.classList.toggle('active', parseInt(span.dataset.id) === activeInstance);
+            });
+        }
+
+        function scrollTextToInstance(id) {
+            const textCol = document.getElementById('text-col');
+            const span = textCol.querySelector('.inst-span[data-id="'+id+'"]');
+            if (!span) return;
+            textCol.scrollTo({
+                top: span.offsetTop - textCol.clientHeight / 2 + span.offsetHeight / 2,
+                behavior: 'smooth'
+            });
+        }
+
+        // ── Parse & render text column ────────────────────────────────────────
+        function parseAndRenderText(rawText) {
+            const textCol = document.getElementById('text-col');
+            visibleInstances.clear();
+
+            // Build circled number map
+            // ①-⑳ = U+2460-U+2473 (1-20), ㉑-㉚ = U+3251-U+325A (21-30)
+            const circledMap = {};
+            for (let i = 0; i < 20; i++) {
+                circledMap[String.fromCodePoint(0x2460 + i)] = i + 1;
+            }
+            for (let i = 0; i < 10; i++) {
+                circledMap[String.fromCodePoint(0x3251 + i)] = i + 21;
+            }
+
+            // First pass: find vis=true instances
+            // ①-⑳ = U+2460-U+2473, ㉑-㉚ = U+3251-U+325A (two disjoint Unicode blocks)
+            const visPattern = /([\u2460-\u2473\u3251-\u325A])|(<p>)|(<\/p>)|(<vis=true>)/gi;
+            let lastId = null, sm;
+            while ((sm = visPattern.exec(rawText)) !== null) {
+                if (sm[1]) lastId = circledMap[sm[1]] || null;
+                else if (sm[4] && lastId !== null) visibleInstances.add(lastId);
+            }
+
+            // Second pass: build HTML
+            const tokenPattern = /([\u2460-\u2473\u3251-\u325A])|(<p>)|(<\/p>)|(<vis=true>)/gi;
+            let html = '', lastIndex = 0, currentId = null, match;
+
+            while ((match = tokenPattern.exec(rawText)) !== null) {
+                if (match.index > lastIndex) {
+                    const plain = rawText.slice(lastIndex, match.index);
+                    if (currentId !== null) {
+                        const isVis = visibleInstances.has(currentId);
+                        if (isVis) {
+                            const color = PALETTE[(currentId - 1) % PALETTE.length];
+                            html += '<span class="inst-span" data-id="'+currentId+'"'
+                                + ' style="background:rgba('+hexToRgbStr(color)+',0.15);border-bottom:2px solid '
+                                + color+';color:'+color+';border-radius:3px;padding:1px 3px;cursor:pointer;font-weight:600;">'
+                                + escapeHtml(plain.trim())+'</span>';
+                        } else {
+                            html += '<span style="text-decoration:underline;text-underline-offset:3px;color:inherit;">'
+                                + escapeHtml(plain.trim())+'</span>';
+                        }
+                    } else {
+                        html += escapeHtml(plain);
+                    }
+                }
+                lastIndex = match.index + match[0].length;
+                if (match[1]) currentId = circledMap[match[1]] || null;
+                else if (match[3]) currentId = null;
+            }
+            if (lastIndex < rawText.length) html += escapeHtml(rawText.slice(lastIndex));
+            textCol.innerHTML = html;
+            textCol.querySelectorAll('.inst-span').forEach(span => {
+                const id = parseInt(span.dataset.id);
+                span.addEventListener('mouseenter', () => setActiveInstance(id));
+                span.addEventListener('click', () => setActiveInstance(id));
+            });
+            if (!textCol.dataset.instanceEventsBound) {
+                const findSpanAtPoint = (event) => {
+                    const x = event.clientX;
+                    const y = event.clientY;
+                    for (const span of textCol.querySelectorAll('.inst-span')) {
+                        for (const rect of span.getClientRects()) {
+                            if (x >= rect.left && x <= rect.right && y >= rect.top && y <= rect.bottom) {
+                                return span;
+                            }
+                        }
+                    }
+                    return null;
+                };
+                const activateFromTextPoint = (event) => {
+                    const target = event.target.closest && event.target.closest('.inst-span');
+                    const span = target || findSpanAtPoint(event);
+                    if (!span) return;
+                    setActiveInstance(parseInt(span.dataset.id));
+                };
+                textCol.addEventListener('click', activateFromTextPoint);
+                textCol.addEventListener('mousemove', activateFromTextPoint);
+                textCol.dataset.instanceEventsBound = 'true';
+            }
+        }
+
+        function buildTextColumn(folder) {
+            fetch('./image/' + folder + '/promt.txt')
+                .then(r => { if (!r.ok) throw new Error(); return r.text(); })
+                .then(text => parseAndRenderText(text))
+                .catch(() => {
+                    document.getElementById('text-col').innerHTML =
+                        '<span style="color:#f43f5e;">⚠ Could not load promt.txt. Please serve via HTTP.</span>';
+                });
+        }
+
+        // ── Sync aspect-ratio of all three image columns to match the source image ──
+        function syncAspectRatio(img) {
+            if (!img.naturalWidth || !img.naturalHeight) return;
+            const ratio = img.naturalWidth / img.naturalHeight;
+            for (const key of ['con', 'controlnet', 'our']) {
+                const col = document.getElementById('imgcol-' + key);
+                if (col) col.style.aspectRatio = ratio;
+            }
+        }
+
+        // ── Load example images ───────────────────────────────────────────────
+        function loadExampleImages(folder) {
+            const loadImage = (key, primarySrc, fallbackSrc) => new Promise(resolve => {
+                const img = imgEls[key];
+                img.src = '';
+                clearOverlay(key);
+
+                img.onload = () => resolve();
+                img.onerror = () => {
+                    if (fallbackSrc && img.src.indexOf(fallbackSrc) === -1) {
+                        img.src = fallbackSrc;
+                        return;
+                    }
+                    resolve();
+                };
+                img.src = primarySrc;
+            });
+
+            const ready = Promise.all([
+                loadImage('con', './image/' + folder + '/con.png'),
+                loadImage('controlnet', './image/' + folder + '/controlnet.jpg', './image/' + folder + '/controlnet.png'),
+                loadImage('our', './image/' + folder + '/our.png'),
+            ]);
+
+            // Use con.png as the reference for aspect ratio (all images in a set share the same ratio)
+            const refImg = imgEls['con'];
+            const applyRatio = () => syncAspectRatio(refImg);
+            if (refImg.complete && refImg.naturalWidth > 0) {
+                applyRatio();
+            } else {
+                refImg.addEventListener('load', applyRatio, { once: true });
+            }
+
+            return ready;
+        }
+
+        // ── Preload masks for current example ─────────────────────────────────
+        function preloadMasks(folder) {
+            loadConfig(folder).then(cfg => {
+                Object.keys(cfg.masks).forEach(id => loadMask(folder, parseInt(id)));
+            });
+        }
+
+        // ── Example navigator ─────────────────────────────────────────────────
+        function buildExampleIndicators() {
+            const container = document.getElementById('example-indicators');
+            container.innerHTML = '';
+            EXAMPLES.forEach((ex, i) => {
+                const dot = document.createElement('div');
+                dot.style.cssText = 'height:4px;border-radius:2px;cursor:pointer;transition:all 0.3s ease;';
+                dot.style.width = i === currentExampleIdx ? '40px' : '20px';
+                dot.style.background = i === currentExampleIdx ? 'var(--cyan)' : '#333';
+                dot.style.boxShadow = i === currentExampleIdx ? '0 0 8px var(--cyan)' : 'none';
+                dot.title = ex.label;
+                dot.addEventListener('click', () => switchExample(i));
+                container.appendChild(dot);
+            });
+        }
+
+        function switchExample(idx) {
+            if (idx === currentExampleIdx) return;
+            currentExampleIdx = idx;
+            activeInstance = 0;
+            maskCache = {};  // clear cache on example switch to avoid stale data
+            const folder = EXAMPLES[idx].folder;
+
+            const imagesReady = loadExampleImages(folder);
+            buildTextColumn(folder);
+            buildExampleIndicators();
+
+            // Wait for images then sync canvas + preload masks
+            imagesReady.then(() => {
+                for (const key of ['con','controlnet','our']) syncCanvasSize(key);
+                preloadMasks(folder);
+            });
+        }
+
+        // ── Image column hover ────────────────────────────────────────────────
+        function setupImgColHover(key) {
+            const col = document.getElementById('imgcol-' + key);
+            if (!col) return;
+            let hoverTimeout = null;
+            async function activateAtPoint(e) {
+                const folder = EXAMPLES[currentExampleIdx].folder;
+                const img = imgEls[key];
+                const rect = img.getBoundingClientRect();
+                const relX = (e.clientX - rect.left) / rect.width;
+                const relY = (e.clientY - rect.top)  / rect.height;
+                if (relX < 0 || relX > 1 || relY < 0 || relY > 1) return;
+
+                for (const id of visibleInstances) {
+                    const maskData = await loadMask(folder, id);
+                    if (!maskData) continue;
+                    const { binary, width: mw, height: mh } = maskData;
+                    const mx = Math.min(Math.floor(relX * mw), mw - 1);
+                    const my = Math.min(Math.floor(relY * mh), mh - 1);
+                    if (binary[my * mw + mx] === 1) {
+                        setActiveInstance(id);
+                        scrollTextToInstance(id);
+                        break;
+                    }
+                }
+            }
+            col.addEventListener('mousemove', (e) => {
+                clearTimeout(hoverTimeout);
+                hoverTimeout = setTimeout(() => activateAtPoint(e), 50);
+            });
+            col.addEventListener('click', activateAtPoint);
+        }
+
+        // ── Init ──────────────────────────────────────────────────────────────
+        function init() {
+            // Build example navigator
+            buildExampleIndicators();
+            document.getElementById('example-prev-btn').addEventListener('click', () => {
+                switchExample((currentExampleIdx - 1 + EXAMPLES.length) % EXAMPLES.length);
+            });
+            document.getElementById('example-next-btn').addEventListener('click', () => {
+                switchExample((currentExampleIdx + 1) % EXAMPLES.length);
+            });
+
+            // Load first example
+            const folder = EXAMPLES[0].folder;
+            const imagesReady = loadExampleImages(folder);
+            buildTextColumn(folder);
+            setupImgColHover('con');
+            setupImgColHover('controlnet');
+            setupImgColHover('our');
+
+            imagesReady.then(() => {
+                for (const key of ['con','controlnet','our']) syncCanvasSize(key);
+                preloadMasks(folder);
+            });
+        }
+
+        window._qualSetActive = setActiveInstance;
+        window._qualSetActiveTextOnly = setActiveTextOnly;
+        document.addEventListener('DOMContentLoaded', init);
+    })();
+    </script>
+
+    <!-- More Results: Instance-level Interactive Logic -->
+    <script>
+    (function () {
+        const VIS_BASE = './vis_mask/';
+
+        const MORE_EXAMPLES = [
+            { folder: 'dalle3_5402',      label: 'DALL·E 3' },
+            { folder: 'sa_6268417',       label: 'SA-1B'    },
+            { folder: '00000000000014',   label: 'COCO'     },
+            { folder: '10595',            label: 'COCO'     },
+        ];
+
+        const PALETTE = [
+            '#46cbc7', '#de5a1d', '#a855f7', '#f59e0b',
+            '#22c55e', '#f43f5e', '#38bdf8', '#fb923c',
+            '#a3e635', '#e879f9', '#34d399', '#fbbf24',
+            '#60a5fa', '#f472b6', '#34d399', '#facc15',
+            '#a78bfa', '#fb7185', '#4ade80', '#38bdf8',
+        ];
+
+        function hexToRgb(hex) {
+            return [parseInt(hex.slice(1,3),16), parseInt(hex.slice(3,5),16), parseInt(hex.slice(5,7),16)];
+        }
+        function hexToRgbStr(hex) { const [r,g,b] = hexToRgb(hex); return r+','+g+','+b; }
+        function escapeHtml(str) {
+            return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+        }
+
+        let moreExampleIdx = 0;
+        let moreActiveInstance = 0;
+        let moreVisibleInstances = new Set();
+        let moreMaskCache = {};
+        let moreMaskConfig = {};
+
+        const moreCanvas = document.getElementById('more-canvas-con');
+        const moreImg    = document.getElementById('more-img-con');
+
+        function moreSyncCanvas() {
+            moreCanvas.width  = moreImg.naturalWidth  || moreImg.clientWidth;
+            moreCanvas.height = moreImg.naturalHeight || moreImg.clientHeight;
+        }
+
+        function moreClearOverlay() {
+            moreCanvas.getContext('2d').clearRect(0, 0, moreCanvas.width, moreCanvas.height);
+        }
+
+        function moreLoadConfig(folder) {
+            if (moreMaskConfig[folder]) return Promise.resolve(moreMaskConfig[folder]);
+            return fetch(VIS_BASE + folder + '/config.json')
+                .then(r => r.json())
+                .then(cfg => { moreMaskConfig[folder] = cfg; return cfg; })
+                .catch(() => { moreMaskConfig[folder] = { masks: {} }; return moreMaskConfig[folder]; });
+        }
+
+        function moreLoadMask(folder, instanceId) {
+            const key = folder + ':' + instanceId;
+            if (moreMaskCache[key] !== undefined) return Promise.resolve(moreMaskCache[key]);
+            return moreLoadConfig(folder).then(cfg => {
+                const filename = cfg.masks[String(instanceId)];
+                if (!filename) { moreMaskCache[key] = null; return null; }
+                return new Promise(resolve => {
+                    const img = new Image();
+                    img.onload = () => {
+                        try {
+                            const off = document.createElement('canvas');
+                            off.width = img.naturalWidth; off.height = img.naturalHeight;
+                            const ctx = off.getContext('2d');
+                            ctx.drawImage(img, 0, 0);
+                            const data = ctx.getImageData(0, 0, off.width, off.height);
+                            const binary = new Uint8Array(data.data.length / 4);
+                            for (let i = 0; i < binary.length; i++) {
+                                binary[i] = data.data[i * 4] > 128 ? 1 : 0;
+                            }
+                            const result = { binary, width: off.width, height: off.height };
+                            moreMaskCache[key] = result;
+                            resolve(result);
+                        } catch(e) { moreMaskCache[key] = null; resolve(null); }
+                    };
+                    img.onerror = () => { moreMaskCache[key] = null; resolve(null); };
+                    img.src = VIS_BASE + folder + '/mask/' + filename;
+                });
+            });
+        }
+
+        function moreDrawOverlay(maskData, color) {
+            const ctx = moreCanvas.getContext('2d');
+            moreSyncCanvas();
+            ctx.clearRect(0, 0, moreCanvas.width, moreCanvas.height);
+            if (!maskData) return;
+            const { binary, width: mw, height: mh } = maskData;
+            const cw = moreCanvas.width, ch = moreCanvas.height;
+            const [r, g, b] = hexToRgb(color);
+            const BORDER = 5;
+            const overlayData = ctx.createImageData(cw, ch);
+            for (let py = 0; py < ch; py++) {
+                for (let px = 0; px < cw; px++) {
+                    const mx = Math.min(Math.floor(px * mw / cw), mw - 1);
+                    const my = Math.min(Math.floor(py * mh / ch), mh - 1);
+                    if (binary[my * mw + mx] !== 1) continue;
+                    let isBorder = false;
+                    outer: for (let dy = -BORDER; dy <= BORDER; dy++) {
+                        for (let dx = -BORDER; dx <= BORDER; dx++) {
+                            const nx = mx+dx, ny = my+dy;
+                            if (nx<0||nx>=mw||ny<0||ny>=mh||binary[ny*mw+nx]===0) { isBorder=true; break outer; }
+                        }
+                    }
+                    const idx = (py * cw + px) * 4;
+                    overlayData.data[idx]   = r;
+                    overlayData.data[idx+1] = g;
+                    overlayData.data[idx+2] = b;
+                    overlayData.data[idx+3] = isBorder ? 255 : 90;
+                }
+            }
+            ctx.putImageData(overlayData, 0, 0);
+        }
+
+        async function moreRenderAll(instanceId) {
+            const folder = MORE_EXAMPLES[moreExampleIdx].folder;
+            if (!moreVisibleInstances.has(instanceId)) { moreClearOverlay(); return; }
+            const color = PALETTE[(instanceId - 1) % PALETTE.length];
+            const maskData = await moreLoadMask(folder, instanceId);
+            moreDrawOverlay(maskData, color);
+        }
+
+        function moreSetActive(id) {
+            if (id === moreActiveInstance) return;
+            moreActiveInstance = id;
+            document.querySelectorAll('.more-inst-span').forEach(span => {
+                span.classList.toggle('active', parseInt(span.dataset.id) === id);
+            });
+            moreRenderAll(id);
+        }
+
+        function moreScrollTextToInstance(id) {
+            const textCol = document.getElementById('more-text-col');
+            const span = textCol.querySelector('.more-inst-span[data-id="'+id+'"]');
+            if (!span) return;
+            textCol.scrollTo({
+                top: span.offsetTop - textCol.clientHeight / 2 + span.offsetHeight / 2,
+                behavior: 'smooth'
+            });
+        }
+
+        function moreSetActiveTextOnly(id) {
+            moreActiveInstance = id;
+            document.querySelectorAll('.more-inst-span').forEach(span => {
+                span.classList.toggle('active', parseInt(span.dataset.id) === id);
+            });
+            moreClearOverlay();
+        }
+
+        function moreParseAndRenderText(rawText) {
+            const textCol = document.getElementById('more-text-col');
+            moreVisibleInstances.clear();
+
+            const circledMap = {};
+            for (let i = 0; i < 20; i++) circledMap[String.fromCodePoint(0x2460 + i)] = i + 1;
+            for (let i = 0; i < 10; i++) circledMap[String.fromCodePoint(0x3251 + i)] = i + 21;
+
+            // First pass: find vis=true
+            // ①-⑳ = U+2460-U+2473, ㉑-㉚ = U+3251-U+325A (two disjoint Unicode blocks)
+            const visPattern = /([\u2460-\u2473\u3251-\u325A])|(<p>)|(<\/p>)|(<vis=true>)/gi;
+            let lastId = null, sm;
+            while ((sm = visPattern.exec(rawText)) !== null) {
+                if (sm[1]) lastId = circledMap[sm[1]] || null;
+                else if (sm[4] && lastId !== null) moreVisibleInstances.add(lastId);
+            }
+
+            // Second pass: build HTML
+            const tokenPattern = /([\u2460-\u2473\u3251-\u325A])|(<p>)|(<\/p>)|(<vis=true>)/gi;
+            let html = '', lastIndex = 0, currentId = null, match;
+            while ((match = tokenPattern.exec(rawText)) !== null) {
+                if (match.index > lastIndex) {
+                    const plain = rawText.slice(lastIndex, match.index);
+                    if (currentId !== null) {
+                        const isVis = moreVisibleInstances.has(currentId);
+                        if (isVis) {
+                            const color = PALETTE[(currentId - 1) % PALETTE.length];
+                            html += '<span class="more-inst-span inst-span" data-id="'+currentId+'"'
+                                + ' style="background:rgba('+hexToRgbStr(color)+',0.15);border-bottom:2px solid '
+                                + color+';color:'+color+';border-radius:3px;padding:1px 3px;cursor:pointer;font-weight:600;"'
+                                + ' onmouseenter="window._moreSetActive('+currentId+')">'
+                                + escapeHtml(plain.trim())+'</span>';
+                        } else {
+                            html += '<span style="text-decoration:underline;text-underline-offset:3px;color:inherit;">'
+                                + escapeHtml(plain.trim())+'</span>';
+                        }
+                    } else {
+                        html += escapeHtml(plain);
+                    }
+                }
+                lastIndex = match.index + match[0].length;
+                if (match[1]) currentId = circledMap[match[1]] || null;
+                else if (match[3]) currentId = null;
+            }
+            if (lastIndex < rawText.length) html += escapeHtml(rawText.slice(lastIndex));
+            textCol.innerHTML = html;
+        }
+
+        function moreBuildTextColumn(folder) {
+            fetch(VIS_BASE + folder + '/promt.txt')
+                .then(r => { if (!r.ok) throw new Error(); return r.text(); })
+                .then(text => moreParseAndRenderText(text))
+                .catch(() => {
+                    document.getElementById('more-text-col').innerHTML =
+                        '<span style="color:#f43f5e;">⚠ Could not load promt.txt. Please serve via HTTP.</span>';
+                });
+        }
+
+        function moreLoadImage(folder) {
+            moreClearOverlay();
+            moreImg.onerror = () => {
+                moreImg.onerror = null;
+                moreImg.src = VIS_BASE + folder + '/con.png';
+            };
+            const applyMoreRatio = () => {
+                if (moreImg.naturalWidth && moreImg.naturalHeight) {
+                    const col = document.getElementById('more-imgcol-con');
+                    if (col) col.style.aspectRatio = moreImg.naturalWidth / moreImg.naturalHeight;
+                }
+            };
+            moreImg.src = VIS_BASE + folder + '/con.png';
+            if (moreImg.complete && moreImg.naturalWidth > 0) {
+                applyMoreRatio();
+            } else {
+                moreImg.addEventListener('load', applyMoreRatio, { once: true });
+            }
+        }
+
+        function moreBuildIndicators() {
+            const container = document.getElementById('more-indicators');
+            container.innerHTML = '';
+            MORE_EXAMPLES.forEach((ex, i) => {
+                const dot = document.createElement('div');
+                dot.style.cssText = 'height:4px;border-radius:2px;cursor:pointer;transition:all 0.3s ease;';
+                dot.style.width = i === moreExampleIdx ? '40px' : '20px';
+                dot.style.background = i === moreExampleIdx ? 'var(--cyan)' : '#333';
+                dot.style.boxShadow = i === moreExampleIdx ? '0 0 8px var(--cyan)' : 'none';
+                dot.title = ex.label;
+                dot.addEventListener('click', () => moreSwitchExample(i));
+                container.appendChild(dot);
+            });
+        }
+
+        function moreSwitchExample(idx) {
+            if (idx === moreExampleIdx) return;
+            moreExampleIdx = idx;
+            moreActiveInstance = 0;
+            moreMaskCache = {};
+            const folder = MORE_EXAMPLES[idx].folder;
+            moreLoadImage(folder);
+            moreBuildTextColumn(folder);
+            moreBuildIndicators();
+            const loaded = new Promise(res => {
+                if (moreImg.complete && moreImg.naturalWidth > 0) res();
+                else { moreImg.onload = res; moreImg.onerror = res; }
+            });
+            loaded.then(() => {
+                moreSyncCanvas();
+                moreLoadConfig(folder).then(cfg => {
+                    Object.keys(cfg.masks).forEach(id => moreLoadMask(folder, parseInt(id)));
+                });
+            });
+        }
+
+        function moreSetupImgHover() {
+            const col = document.getElementById('more-imgcol-con');
+            if (!col) return;
+            let hoverTimeout = null;
+            async function moreActivateAtPoint(e) {
+                const folder = MORE_EXAMPLES[moreExampleIdx].folder;
+                const rect = moreImg.getBoundingClientRect();
+                const relX = (e.clientX - rect.left) / rect.width;
+                const relY = (e.clientY - rect.top)  / rect.height;
+                if (relX < 0 || relX > 1 || relY < 0 || relY > 1) return;
+                for (const id of moreVisibleInstances) {
+                    const maskData = await moreLoadMask(folder, id);
+                    if (!maskData) continue;
+                    const { binary, width: mw, height: mh } = maskData;
+                    const mx = Math.min(Math.floor(relX * mw), mw - 1);
+                    const my = Math.min(Math.floor(relY * mh), mh - 1);
+                    if (binary[my * mw + mx] === 1) {
+                        moreSetActive(id);
+                        moreScrollTextToInstance(id);
+                        break;
+                    }
+                }
+            }
+            col.addEventListener('mousemove', (e) => {
+                clearTimeout(hoverTimeout);
+                hoverTimeout = setTimeout(() => moreActivateAtPoint(e), 50);
+            });
+            col.addEventListener('click', moreActivateAtPoint);
+        }
+
+        function moreInit() {
+            moreBuildIndicators();
+            document.getElementById('more-prev-btn').addEventListener('click', () => {
+                moreSwitchExample((moreExampleIdx - 1 + MORE_EXAMPLES.length) % MORE_EXAMPLES.length);
+            });
+            document.getElementById('more-next-btn').addEventListener('click', () => {
+                moreSwitchExample((moreExampleIdx + 1) % MORE_EXAMPLES.length);
+            });
+
+            const folder = MORE_EXAMPLES[0].folder;
+            moreLoadImage(folder);
+            moreBuildTextColumn(folder);
+            moreSetupImgHover();
+
+            const loaded = new Promise(res => {
+                if (moreImg.complete && moreImg.naturalWidth > 0) res();
+                else { moreImg.onload = res; moreImg.onerror = res; }
+            });
+            loaded.then(() => {
+                moreSyncCanvas();
+                moreLoadConfig(folder).then(cfg => {
+                    Object.keys(cfg.masks).forEach(id => moreLoadMask(folder, parseInt(id)));
+                });
+            });
+        }
+
+        window._moreSetActive = moreSetActive;
+        window._moreSetActiveTextOnly = moreSetActiveTextOnly;
+        document.addEventListener('DOMContentLoaded', moreInit);
+    })();
+    </script>
+
+    <!-- Carousel Logic (for More Results section) -->
+    <script>
+        function initCarousel(carouselId) {
+            const container = document.getElementById(carouselId);
+            if (!container) return;
+
+            const slides = container.querySelectorAll('.carousel-slide');
+            const indicatorsContainer = container.querySelector('.carousel-indicators');
+            const prevBtn = container.querySelector('.prev-btn');
+            const nextBtn = container.querySelector('.next-btn');
+
+            let currentIndex = 0;
+
+            slides.forEach((_, index) => {
+                const dot = document.createElement('div');
+                dot.classList.add('dot');
+                if (index === 0) dot.classList.add('active');
+                dot.addEventListener('click', () => goToSlide(index));
+                indicatorsContainer.appendChild(dot);
+            });
+
+            const dots = indicatorsContainer.querySelectorAll('.dot');
+
+            function updateCarousel() {
+                slides.forEach((slide, index) => {
+                    slide.classList.toggle('active', index === currentIndex);
+                });
+                dots.forEach((dot, index) => {
+                    dot.classList.toggle('active', index === currentIndex);
+                });
+            }
+
+            function goToSlide(index) {
+                currentIndex = index < 0 ? slides.length - 1 : index >= slides.length ? 0 : index;
+                updateCarousel();
+            }
+
+            prevBtn.addEventListener('click', () => goToSlide(currentIndex - 1));
+            nextBtn.addEventListener('click', () => goToSlide(currentIndex + 1));
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            initCarousel('carousel-more');
+        });
+    </script>
+
+
+    <!-- Background Particles -->
+    <script>
+        (function () {
+            const canvas = document.createElement('canvas');
+            const ctx = canvas.getContext('2d');
+            canvas.style.cssText = 'position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:9999;';
+            document.body.appendChild(canvas);
+
+            let particles = [];
+            let width = canvas.width = window.innerWidth;
+            let height = canvas.height = window.innerHeight;
+
+            window.addEventListener('resize', () => {
+                width = canvas.width = window.innerWidth;
+                height = canvas.height = window.innerHeight;
+            });
+
+            const PARTICLE_COUNT = 60;
+            const COLORS = ['rgba(70,203,199,', 'rgba(222,90,29,', 'rgba(168,85,247,'];
+
+            for (let i = 0; i < PARTICLE_COUNT; i++) {
+                particles.push({
+                    x: Math.random() * window.innerWidth,
+                    y: Math.random() * window.innerHeight,
+                    radius: Math.random() * 1.5 + 0.3,
+                    color: COLORS[Math.floor(Math.random() * COLORS.length)],
+                    alpha: Math.random() * 0.4 + 0.05,
+                    speedX: (Math.random() - 0.5) * 0.3,
+                    speedY: (Math.random() - 0.5) * 0.3,
+                });
+            }
+
+            function animate() {
+                ctx.clearRect(0, 0, width, height);
+                particles.forEach(particle => {
+                    particle.x += particle.speedX;
+                    particle.y += particle.speedY;
+                    if (particle.x < 0) particle.x = width;
+                    if (particle.x > width) particle.x = 0;
+                    if (particle.y < 0) particle.y = height;
+                    if (particle.y > height) particle.y = 0;
+
+                    ctx.beginPath();
+                    ctx.arc(particle.x, particle.y, particle.radius, 0, Math.PI * 2);
+                    ctx.fillStyle = particle.color + particle.alpha + ')';
+                    ctx.fill();
+                });
+                requestAnimationFrame(animate);
+            }
+
+            animate();
+        })();
+    </script>
+</body>
+</html>

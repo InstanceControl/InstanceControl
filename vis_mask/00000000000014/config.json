@@ -1,0 +1,20 @@
+{
+  "masks": {
+    "1": "1_the left painting has a black frame.png",
+    "2": "3_a second painting with a light brown wooden frame.png",
+    "3": "5_a white desk with a white top and matching legs.png",
+    "4": "6_a small potted plant with green leaves in a blue p.png",
+    "5": "7_a white computer monitor with a black screen.png",
+    "6": "8_a bright pink keyboard.png",
+    "7": "9_mouse.png",
+    "8": "10_a black chair.png",
+    "9": "11_a brown wooden storage shelf with three tiers.png",
+    "10": "13_a tall, black computer case.png",
+    "11": "14_a set of four yellow books.png",
+    "12": "15_a blue desk with a solid blue top and matching leg.png",
+    "13": "16_a yellow gooseneck desk lamp.png",
+    "14": "17_an open black laptop.png",
+    "15": "18_a white mouse.png",
+    "16": "20_a white chair.png"
+  }
+}
